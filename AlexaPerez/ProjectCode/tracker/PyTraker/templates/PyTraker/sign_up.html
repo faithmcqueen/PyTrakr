@@ -1,6 +1,16 @@
-<form method="post">
+{% extends "PyTraker/header.html" %}
+
+{% block content %}
+
+<form method="post" >
     {% csrf_token %}
     {{ user_form }}
     {{ profile_form }}
-    <input type="submit" value="Sign up">
+
+    {{ form.errors }}
+    <div>
+    <input type="submit" class="btn btn-primary" value="Sign up">
+    </div>
 </form>
+
+{% endblock %}
