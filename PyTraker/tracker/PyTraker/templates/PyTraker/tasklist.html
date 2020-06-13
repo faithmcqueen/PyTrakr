@@ -8,7 +8,7 @@
     <div class="list-group list-group-flush">
 {% for tasks in all_task_list %}
 
-<p class="list-group-item list-group-item-action"><a href="/PyTraker/task_detail/{{ tasks.id }}" class="d-inline-flex p-2">{{ tasks.name }}</a> for {{ tasks.projectID.name }}
+<p class="list-group-item list-group-item-action"><a href="/PyTraker/task_detail/{{ tasks.id }}" class="d-inline-flex p-2">{{ tasks.name }}</a> for {{ tasks.projectID.name }} due on {{ tasks.due_date }}
     <span><a href="/PyTraker/change_status/{{ tasks.id }}" class="d-inline-flex p-2 btn btn-success btn-circle float-right">&check;</a></span></p>
 {% endfor %}
 

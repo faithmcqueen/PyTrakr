@@ -97,8 +97,6 @@ class WorkDiaryForm(forms.ModelForm):
         #   userID = self.cleaned_data.get("userID")
 
 #Create a task
-
-
 class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
