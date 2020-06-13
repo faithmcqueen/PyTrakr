@@ -1,11 +1,20 @@
-<h1>All Tasks</h1>
-{% load static %}
+{% extends "PyTraker/header.html" %}
+
+{% block content %}
+
+<h1> {{ user }}, here are your current tasks:</h1>
+    <a href="/PyTraker/new_task" class="btn btn-success">New Task</a>
 {% if all_task_list %}
-           <ul>
-    {% for tasks in all_task_list %}
-        <li>{{ tasks.id  }} | <a href="{% url 'task_detail' tasks.id %}">{{ tasks.name }}</a>: {{ tasks.description }}</li>
-    {% endfor %}
-       </ul>
+    <div class="list-group list-group-flush">
+{% for tasks in all_task_list %}
+
+<p class="list-group-item list-group-item-action"><a href="/PyTraker/task_detail/{{ tasks.id }}" class="d-inline-flex p-2">{{ tasks.name }}</a> for {{ tasks.projectID.name }}
+    <span><a href="/PyTraker/change_status/{{ tasks.id }}" class="d-inline-flex p-2 btn btn-success btn-circle float-right">&check;</a></span></p>
+{% endfor %}
+
+</div>
 {% else %}
-           <p>No polls are available.</p>
+    <p>You don't have any tasks yet! <a href="/PyTraker/new_task">Add a task.</a></p>
 {% endif %}
+
+{% endblock %}

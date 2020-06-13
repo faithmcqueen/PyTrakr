@@ -1,4 +1,26 @@
-<h1>{{ tasks.name }}</h1>
-<button>Complete Task</button>
-<button>Track Time</button>
-<p> {{ tasks.description }}</p>
+{% extends "PyTraker/header.html" %}
+{% block content %}
+    <br><br>
+        <a href="/PyTraker/index">Home</a>
+<div class="container">
+<div class="card">
+    <div class="card-header">
+  <h5 class="d-inline-flex p-2">{{ tasks.name }}</h5>
+    <a href="/PyTraker/change_status/{{ tasks.id }}" class="d-inline-flex p-2 btn btn-success btn-circle float-right">&check;</a>
+        </div>
+  <div class="card-body">
+      <div class="timer float-right">
+          <span id="timer">00:00:00</span>
+          <button class="btn btn-success">Start Timer</button>
+          <button class="btn btn-danger">Stop Timer</button>
+      </div>
+      <p class="card-text">Project: <a href="/PyTraker/details_project/{{ tasks.projectID.id }}">{{ tasks.projectID.name }}</a></p>
+    <p class="card-text">Task Description: {{ tasks.description }}</p>
+      <p class="card-text">Task Due On: {{ tasks.due_date }}</p>
+
+    <a href="/PyTraker/edit_task/{{ tasks.id }}" class="btn btn-warning">Edit</a>
+    <a href="/PyTraker/delete_task/{{ tasks.id }}"  class="btn btn-danger"  id ='{{project.id}}'>Delete</a>
+  </div>
+</div>
+</div>
+{% endblock %}

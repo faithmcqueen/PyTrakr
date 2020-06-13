@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/Andrea/Desktop/WebProject/RepoPytraker/project-and-learning-documentations-noname/venv"
+set -gx VIRTUAL_ENV "/Users/faithmcqueen/NoName/pytracker-new/Project_PyTraker_No_Name/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

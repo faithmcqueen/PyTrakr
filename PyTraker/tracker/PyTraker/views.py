@@ -8,7 +8,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm, InvoiceForm, WorkDiaryForm
+from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm, InvoiceForm, WorkDiaryForm, \
+    TaskForm
 from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary
 
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm
@@ -182,15 +183,69 @@ def comment_delete(request, comment_id):
 
 
 #Task Views
+#list task
 def tasklist(request):
-    all_task_list = Tasks.objects.order_by("name")
+    all_task_list = Tasks.objects.filter(complete=False)
     context = {"all_task_list": all_task_list}
     return render(request, "PyTraker/tasklist.html", context)
 
-
+#task detail
 def task_detail(request, tasks_id):
     tasks = get_object_or_404(Tasks, pk=tasks_id)
     return render(request, 'PyTraker/task_detail.html', {'tasks': tasks})
+
+#create task
+def new_task(request):
+    if request.method == 'POST':
+        filled_form = TaskForm(request.POST or None)
+        if filled_form.is_valid():
+            created_task = filled_form.save()
+            created_task_id = created_task.id
+            note = 'Your new task: %s has been added.' %(filled_form.cleaned_data['name'])
+            filled_form = TaskForm()
+        else:
+            created_task_id = None
+            note = "Your task was not added, please try again."
+        return render(request, 'PyTraker/new_task.html',
+                      {'created_task_id': created_task_id, 'new_task': filled_form, 'note': note})
+    else:
+        form = TaskForm()
+        return render(request, 'PyTraker/new_task.html', {'new_task': form})
+
+#edit task
+def edit_task(request, tasks_id):
+    task = Tasks.objects.get(pk=tasks_id)
+    form = TaskForm(instance=task)
+    if request.method == "POST":
+        filled_form = TaskForm(request.POST, instance=task)
+        if filled_form.is_valid():
+            filled_form.save()
+            form = filled_form
+            note = "The task has been updated."
+            return render(request, 'PyTraker/edit_task.html', {'note': note,'new_task': form, 'task': task})
+
+    return render(request, 'PyTraker/edit_task.html', {'new_task': form, 'task': task})
+
+#delete task
+def delete_task(request, tasks_id):
+    tasks_id = int(tasks_id)
+    try:
+        task_del = Tasks.objects.get(id=tasks_id)
+    except Tasks.DoesNotExist:
+        return redirect('/PyTraker/index')
+    task_del.delete()
+    return redirect('/PyTraker/index')
+
+
+#change status of task
+def change_status(request, tasks_id):
+    task = Tasks.objects.get(id=tasks_id)
+    try:
+        task.complete = True
+    except Tasks.DoesNotExist:
+        return redirect('/PyTraker/index')
+    task.save()
+    return redirect('/PyTraker/tasklist')
 
 
 #Project Views
@@ -202,7 +257,8 @@ def projects(request):
 
 def project_detail(request, projects_id):
     project = get_object_or_404(Projects, pk=projects_id)
-    return render(request, 'PyTraker/project_detail.html', project)
+    all_tasks = Tasks.objects.filter(projectID_id=projects_id)
+    return render(request, 'PyTraker/project_detail.html', project, all_tasks)
 
 
 def new_project(request):
@@ -239,7 +295,8 @@ def edit_project(request, pk):
 
 def details_project(request, pk):
     project = get_object_or_404(Projects, pk=pk)
-    return render(request, 'PyTraker/details_project.html', {'project': project})
+    tasks = Tasks.objects.filter(projectID_id=project.pk)
+    return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks})
 
 def list_projects(request):
     project_list = Projects.objects.order_by('dueDate')

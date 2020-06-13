@@ -4,3 +4,7 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.btn-circle {
+    border-radius: 50%;
+}

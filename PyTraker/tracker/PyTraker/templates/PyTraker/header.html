@@ -31,6 +31,15 @@
           <a class="dropdown-item" href="/PyTraker/new_project">Add New</a>
         </div>
       </li>
+            <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Tasks
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/PyTraker/tasklist">List</a>
+          <a class="dropdown-item" href="/PyTraker/new_task">Add New</a>
+        </div>
+      </li>
     </ul>
 
       <div class="nav-item">Hello, {{ request.user }} </div>  <a href="#" onClick="document.getElementById('logoutform').submit()"><button type="button" class="btn btn-dark" >Logout</button></a>

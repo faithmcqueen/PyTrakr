@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Profile, Comments, Projects, Invoices, Clients, WorkDiary
+from .models import Profile, Comments, Projects, Invoices, Clients, WorkDiary, Tasks
 
 # for import date and time
 from _datetime import datetime
@@ -95,3 +95,26 @@ class WorkDiaryForm(forms.ModelForm):
 
         # def clean_user(self, *args, **kwargs):
         #   userID = self.cleaned_data.get("userID")
+
+#Create a task
+
+
+class TaskForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs = {'class': 'form-control', }
+        self.fields['description'].widget.attrs = {'class': 'form-control',}
+        self.fields['projectID'].widget.attrs = {'class': 'form-control', }
+        self.fields['due_date'].widget.attrs = {'class': 'form-control', }
+
+    class Meta:
+        model = Tasks
+        fields = ['name',
+                  'description',
+                  'projectID',
+                  'due_date']
+        labels = {'name': 'Task',
+                  'description': 'Task Description',
+                  'projectID': 'Project',
+                  'due_date': 'Task Due'}
