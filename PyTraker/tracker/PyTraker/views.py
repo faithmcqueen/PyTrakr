@@ -171,15 +171,7 @@ def comment_create_view(request):
     }
     return render(request, "PyTraker/comment_form.html", context)
 
-def comment_delete(request, comment_id):
-    obj = get_object_or_404(Comments, id=comment_id)
-    if request.method == "POST":
-        obj.delete()
-        return redirect('../../')
-    context = {
-        "object":obj
-    }
-    return render(request, "PyTraker/comment_delete.html", context)
+
 
 
 #Task Views
@@ -357,7 +349,39 @@ def workdiary_edit(request, pk):
 
 def workdiary_details(request, pk):
     workdiary = get_object_or_404(WorkDiary, pk=pk)
-    return render(request, 'PyTraker/workdiary_detail.html', {'workdiary': workdiary})
+    if request.method == "POST":
+        new_comment = CommentForm()
+        # get the login user id
+        current_user = request.user
+        my_p = User.objects.get(id=current_user.id)
+        new_comment.user = my_p
+        new_comment.comment = request.POST.get('comment')
+        new_comment.workdiary = workdiary
+        #new_comment.comment_date = parse_date(request.POST.get('comment_date'))
+        new_comment.comment_date = datetime.now()
+        #print(new_comment.user)
+        #print(new_comment.comment_date)
+        #print(new_comment.comment)
+        Comments.objects.create(user=new_comment.user,comment=new_comment.comment,comment_date=new_comment.comment_date,workdiary=new_comment.workdiary)
+    comments = Comments.objects.filter(workdiary=pk)
+    date = datetime.now()
+    context = {
+        'object': comments,
+        'time' : defaultfilters.date(date, "Y-m-d h:i A"),
+        'workdiary': workdiary
+
+    }
+    return render(request, 'PyTraker/workdiary_detail.html', context)
+
+def comment_delete(request, comment_id):
+    obj = get_object_or_404(Comments, id=comment_id)
+    if request.method == "POST":
+        obj.delete()
+        return redirect('/PyTraker/workdiary')
+    context = {
+        "object":obj
+    }
+    return render(request, "PyTraker/comment_delete.html", context)
 
 
 def workdiary_delete(request, pk):
