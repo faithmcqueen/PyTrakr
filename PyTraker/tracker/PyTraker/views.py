@@ -83,20 +83,24 @@ def log_out(request):
 
 
 # Invoice Views
-def invoice(request, invoices_id):
-    obj = Invoices.objects.get(id=invoices_id)
+def invoice(request, project_id):
+
+    #Get the invoice whose project id is the one being passed
+
+
+    obj = Invoices.objects.get(projectID_id=project_id)
     tasks = Tasks.objects.filter(projectID_id=obj.projectID)
     context = {
         'invoice_id': obj.id,
         'project_id': obj.projectID,
-        'project_name':obj.projectID.name,
+        'project_name': obj.projectID.name,
         'client_name': obj.projectID.clientID.name,
         'client_email': obj.projectID.clientID.email,
         'client_phone': obj.projectID.clientID.phone,
-        #'user_fname': obj.userID.firstname,
-        #'user_lname': obj.userID.lastname,
+        # 'user_fname': obj.userID.firstname,
+        # 'user_lname': obj.userID.lastname,
         'user_email': obj.userID.email,
-        #'user_phone': obj.userID.phonenumber,
+        # 'user_phone': obj.userID.phonenumber,
         'date_created': obj.dateCreated,
         'date_due': obj.dueDate,
         'hourly_rate': obj.projectID.payRate,
@@ -121,7 +125,7 @@ def new_invoice(request):
         return render(request, "PyTraker/new_invoice.html", context)
 
 def edit_invoice(request, invoices_id):
-    invoice =  Invoices.objects.get(pk=invoices_id)
+    invoice = Invoices.objects.get(pk=invoices_id)
     form = InvoiceForm(instance=invoice)
     if request.method == "POST":
         populated_form = InvoiceForm(request.POST, instance=invoice)
@@ -288,7 +292,11 @@ def edit_project(request, pk):
 def details_project(request, pk):
     project = get_object_or_404(Projects, pk=pk)
     tasks = Tasks.objects.filter(projectID_id=project.pk)
-    return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks})
+    try:
+        invoice = Invoices.objects.get(projectID_id=pk)
+    except Invoices.DoesNotExist:
+        invoice = 'false'
+    return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks, 'invoice': invoice})
 
 def list_projects(request):
     project_list = Projects.objects.order_by('dueDate')

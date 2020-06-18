@@ -6,7 +6,7 @@
 {% if all_invoices %}
     <div class="list-group">
     {% for invoice in all_invoices %}
-    <a href="/PyTraker/invoice/{{ invoice.id }}" class="list-group-item list-group-item-action">{{ invoice.projectID.name }}</a>
+    <a href="/PyTraker/invoice/{{ invoice.projectID_id }}" class="list-group-item list-group-item-action">{{ invoice.projectID.name }}</a>
     {% endfor %}
 
 </div>

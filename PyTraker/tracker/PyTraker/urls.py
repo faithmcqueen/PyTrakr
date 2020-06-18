@@ -10,7 +10,7 @@ urlpatterns = [
     path('PyTraker/login', views.login_page, name="login"),
     path("PyTraker/logout", views.log_out, name="logout"),
 
-    path("PyTraker/invoice/<int:invoices_id>/", views.invoice, name="invoice"),
+    path("PyTraker/invoice/<int:project_id>/", views.invoice, name="invoice"),
     path("PyTraker/list_invoices/", views.invoice_list, name="list_invoices"),
     path("PyTraker/new_invoice/", views.new_invoice, name="new_invoice"),
     path("PyTraker/edit_invoice/<int:invoices_id>/", views.edit_invoice, name="edit_invoice"),
