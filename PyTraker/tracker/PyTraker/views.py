@@ -20,6 +20,8 @@ from _datetime import datetime
 from django.utils import timezone
 from django.template import defaultfilters
 from django.utils.dateparse import parse_date
+from django.views.generic import ListView
+from django.db.models import Q
 
 
 # @login_required
@@ -403,4 +405,14 @@ def workdiary_conf_delete(request, pk):
     del_workdiary.delete()
 
     return redirect('/PyTraker/workdiary')
+
+
+class SearchResultsView(ListView):
+    model = Projects
+    template_name = 'PyTraker/search_results.html'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Projects.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
+        return object_list
 

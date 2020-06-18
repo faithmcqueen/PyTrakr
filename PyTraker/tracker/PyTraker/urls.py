@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+from .views import SearchResultsView
+
+
 app_name = 'PyTraker'
 urlpatterns = [
     path('', views.home, name="home"),
@@ -35,6 +38,8 @@ urlpatterns = [
     path("PyTraker/workdiary_edit/<int:pk>", views.workdiary_edit, name="workdiary_edit"),
     path("PyTraker/workdiary_detail/<int:pk>", views.workdiary_details, name="workdiary_detail"),
     path("PyTraker/workdiary_delete/<int:pk>", views.workdiary_delete, name="workdiary_delete"),
-    path("PyTraker/workdiary_conf_delete/<int:pk>", views.workdiary_conf_delete, name="workdiary_conf_delete")
+    path("PyTraker/workdiary_conf_delete/<int:pk>", views.workdiary_conf_delete, name="workdiary_conf_delete"),
+
+    path('search/', SearchResultsView.as_view(), name='search_results'),
 
 ]
