@@ -27,7 +27,7 @@ from django.db.models import Q
 # @login_required
 def home(request):
     project_list = Projects.objects.all()
-    paginator = Paginator(project_list, 6)
+    paginator = Paginator(project_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     # context = {'project_list': project_list}
