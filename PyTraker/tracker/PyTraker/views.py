@@ -490,3 +490,8 @@ def user_profile_edit(request, pk):
 
     return render(request, 'PyTraker/user_profile_edit.html',
                   {'user_profile_edit': edit_profile, 'userprofile': userprofile})
+
+# Note_Board
+@login_required
+def note_board(request):
+    return render(request, 'PyTraker/noteboard.html')
