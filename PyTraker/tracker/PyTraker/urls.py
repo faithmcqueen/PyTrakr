@@ -41,5 +41,6 @@ urlpatterns = [
     path("PyTraker/workdiary_conf_delete/<int:pk>", views.workdiary_conf_delete, name="workdiary_conf_delete"),
 
     path('search/', SearchResultsView.as_view(), name='search_results'),
-
+    path("PyTraker/user_profile/<int:pk>", views.user_profile, name="user_profile"),
+    path("PyTraker/user_profile_edit/<int:pk>", views.user_profile_edit, name="user_profile_edit")
 ]

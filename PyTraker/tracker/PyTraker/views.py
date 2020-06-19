@@ -13,7 +13,7 @@ from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, Pro
 from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary
 
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm
-from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, Profile
+from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, Profile, TaskNotes, ProjectNotes
 
 # for import date and time
 from _datetime import datetime
@@ -24,7 +24,6 @@ from django.views.generic import ListView
 from django.db.models import Q
 
 
-# @login_required
 def home(request):
     project_list = Projects.objects.all()
     paginator = Paginator(project_list, 5)
@@ -85,10 +84,9 @@ def log_out(request):
 
 
 # Invoice Views
+@login_required
 def invoice(request, project_id):
-
-    #Get the invoice whose project id is the one being passed
-
+    # Get the invoice whose project id is the one being passed
 
     obj = Invoices.objects.get(projectID_id=project_id)
     tasks = Tasks.objects.filter(projectID_id=obj.projectID)
@@ -110,22 +108,28 @@ def invoice(request, project_id):
     }
     return render(request, "PyTraker/invoice.html", context)
 
-def invoice_list (request):
+
+@login_required
+def invoice_list(request):
     all_invoices = Invoices.objects.order_by("-dateCreated")
     context = {"all_invoices": all_invoices}
     return render(request, "PyTraker/list_invoice.html", context)
 
-def new_invoice(request):
-        invoice_form = InvoiceForm(request.POST or None)
-        #Checking if the form is valid
-        if invoice_form.is_valid():
-            invoice_form.save()
-            invoice_form = InvoiceForm()
-        context = {
-            'invoice_form': invoice_form
-        }
-        return render(request, "PyTraker/new_invoice.html", context)
 
+@login_required
+def new_invoice(request):
+    invoice_form = InvoiceForm(request.POST or None)
+    # Checking if the form is valid
+    if invoice_form.is_valid():
+        invoice_form.save()
+        invoice_form = InvoiceForm()
+    context = {
+        'invoice_form': invoice_form
+    }
+    return render(request, "PyTraker/new_invoice.html", context)
+
+
+@login_required
 def edit_invoice(request, invoices_id):
     invoice = Invoices.objects.get(pk=invoices_id)
     form = InvoiceForm(instance=invoice)
@@ -135,19 +139,23 @@ def edit_invoice(request, invoices_id):
             populated_form.save()
             form = populated_form
             note = "Invoice has been updated."
-            return render(request, 'PyTraker/edit_invoice.html', {'note': note,'invoice_form': form, 'invoice': invoice})
+            return render(request, 'PyTraker/edit_invoice.html',
+                          {'note': note, 'invoice_form': form, 'invoice': invoice})
 
     return render(request, 'PyTraker/edit_invoice.html', {'invoice_form': form, 'invoice': invoice})
 
-#comment page
+
+# comment page
+@login_required
 def comment_view(request):
     obj = Comments.objects.all()
-    context ={
+    context = {
         'object': obj
     }
-    return render(request, "PyTraker/comment_form.html",context)
+    return render(request, "PyTraker/comment_form.html", context)
 
 
+@login_required
 def comment_detail_view(request, comment_id):
     obj = Comments.objects.get(id=comment_id)
     context = {
@@ -156,6 +164,7 @@ def comment_detail_view(request, comment_id):
     return render(request, "PyTraker/comment_detail.html", context)
 
 
+@login_required
 def comment_create_view(request):
     if request.method == "POST":
         new_comment = CommentForm()
@@ -163,43 +172,47 @@ def comment_create_view(request):
         my_p = User.objects.get(id=current_user.id)
         new_comment.user = my_p
         new_comment.comment = request.POST.get('comment')
-        #new_comment.comment_date = parse_date(request.POST.get('comment_date'))
+        # new_comment.comment_date = parse_date(request.POST.get('comment_date'))
         new_comment.comment_date = datetime.now()
         print(new_comment.user)
         print(new_comment.comment_date)
         print(new_comment.comment)
-        Comments.objects.create(user=new_comment.user,comment=new_comment.comment,comment_date=new_comment.comment_date)
+        Comments.objects.create(user=new_comment.user, comment=new_comment.comment,
+                                comment_date=new_comment.comment_date)
     comments = Comments.objects.all()
     date = datetime.now()
     context = {
         'object': comments,
-        'time' : defaultfilters.date(date, "Y-m-d h:i A")
+        'time': defaultfilters.date(date, "Y-m-d h:i A")
     }
     return render(request, "PyTraker/comment_form.html", context)
 
 
-
-
-#Task Views
-#list task
+# Task Views
+# list task
+@login_required
 def tasklist(request):
     all_task_list = Tasks.objects.filter(complete=False)
     context = {"all_task_list": all_task_list}
     return render(request, "PyTraker/tasklist.html", context)
 
-#task detail
+
+# task detail
+@login_required
 def task_detail(request, tasks_id):
     tasks = get_object_or_404(Tasks, pk=tasks_id)
     return render(request, 'PyTraker/task_detail.html', {'tasks': tasks})
 
-#create task
+
+# create task
+@login_required
 def new_task(request):
     if request.method == 'POST':
         filled_form = TaskForm(request.POST or None)
         if filled_form.is_valid():
             created_task = filled_form.save()
             created_task_id = created_task.id
-            note = 'Your new task: %s has been added.' %(filled_form.cleaned_data['name'])
+            note = 'Your new task: %s has been added.' % (filled_form.cleaned_data['name'])
             filled_form = TaskForm()
         else:
             created_task_id = None
@@ -210,7 +223,9 @@ def new_task(request):
         form = TaskForm()
         return render(request, 'PyTraker/new_task.html', {'new_task': form})
 
-#edit task
+
+# edit task
+@login_required
 def edit_task(request, tasks_id):
     task = Tasks.objects.get(pk=tasks_id)
     form = TaskForm(instance=task)
@@ -220,11 +235,13 @@ def edit_task(request, tasks_id):
             filled_form.save()
             form = filled_form
             note = "The task has been updated."
-            return render(request, 'PyTraker/edit_task.html', {'note': note,'new_task': form, 'task': task})
+            return render(request, 'PyTraker/edit_task.html', {'note': note, 'new_task': form, 'task': task})
 
     return render(request, 'PyTraker/edit_task.html', {'new_task': form, 'task': task})
 
-#delete task
+
+# delete task
+@login_required
 def delete_task(request, tasks_id):
     tasks_id = int(tasks_id)
     try:
@@ -235,7 +252,8 @@ def delete_task(request, tasks_id):
     return redirect('/PyTraker/index')
 
 
-#change status of task
+# change status of task
+@login_required
 def change_status(request, tasks_id):
     task = Tasks.objects.get(id=tasks_id)
     try:
@@ -246,26 +264,29 @@ def change_status(request, tasks_id):
     return redirect('/PyTraker/tasklist')
 
 
-#Project Views
+# Project Views
+@login_required
 def projects(request):
     all_projects = Projects.objects.order_by("name")
     context = {"all_projects": all_projects}
     return render(request, "PyTraker/projects.html", context)
 
 
+@login_required
 def project_detail(request, projects_id):
     project = get_object_or_404(Projects, pk=projects_id)
     all_tasks = Tasks.objects.filter(projectID_id=projects_id)
     return render(request, 'PyTraker/project_detail.html', project, all_tasks)
 
 
+@login_required
 def new_project(request):
     if request.method == 'POST':
         filled_form = ProjectForm(request.POST or None)
         if filled_form.is_valid():
             created_project = filled_form.save()
             created_project_pk = created_project.id
-            note = 'Your Project with %s has been added.' %(filled_form.cleaned_data['name'])
+            note = 'Your Project with %s has been added.' % (filled_form.cleaned_data['name'])
             filled_form = ProjectForm()
         else:
             created_project_pk = None
@@ -277,6 +298,7 @@ def new_project(request):
         return render(request, 'PyTraker/new_project.html', {'new_project': form})
 
 
+@login_required
 def edit_project(request, pk):
     project = Projects.objects.get(pk=pk)
     form = ProjectForm(instance=project)
@@ -286,11 +308,13 @@ def edit_project(request, pk):
             filled_form.save()
             form = filled_form
             note = "Project has been updated."
-            return render(request, 'PyTraker/edit_project.html', {'note': note,'new_project': form, 'project': project})
+            return render(request, 'PyTraker/edit_project.html',
+                          {'note': note, 'new_project': form, 'project': project})
 
     return render(request, 'PyTraker/edit_project.html', {'new_project': form, 'project': project})
 
 
+@login_required
 def details_project(request, pk):
     project = get_object_or_404(Projects, pk=pk)
     tasks = Tasks.objects.filter(projectID_id=project.pk)
@@ -300,12 +324,15 @@ def details_project(request, pk):
         invoice = 'false'
     return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks, 'invoice': invoice})
 
+
+@login_required
 def list_projects(request):
     project_list = Projects.objects.order_by('dueDate')
     context = {'project_list': project_list}
     return render(request, 'PyTraker/list_projects.html', context)
 
 
+@login_required
 def delete_project(request, pk):
     pk = int(pk)
     try:
@@ -318,30 +345,50 @@ def delete_project(request, pk):
 
 # Work Diary Views
 
+@login_required
 def workdiary(request):
     all_workdiary = WorkDiary.objects.order_by("name")
     context = {"all_workdiary": all_workdiary}
     return render(request, "PyTraker/workdiary.html", context)
 
 
+@login_required
 def workdiary_add(request):
     if request.method == "POST":
-        # initial_data = {
-        # 'userID': request.user.is_authenticated
-        # }
         diary_form = WorkDiaryForm(request.POST)
-        if diary_form.is_valid():
-            newdiary = diary_form.save(commit=False)
-            #newdiary.userID = User.objects.get(userID=request.user)
-            newdiary.save()
-            diaryname = diary_form.cleaned_data.get('name')
-            messages.success(request, 'Work Diary:' + diaryname + ' was created successfully!')
-            return redirect('/PyTraker/workdiary')
+        current_user = request.user
+        userID = User.objects.get(id=current_user.id)
+        new_workdiary = WorkDiaryForm()
+        new_workdiary.userID = userID
+        new_workdiary.name = request.POST.get('name')
+        new_workdiary.date = datetime.now()
+        projectID = request.POST.get('projectID')
+        project = Projects.objects.get(id=projectID)
+        new_workdiary.projectID = project
+        projectNotesID = request.POST.get('projectNotesID')
+        projectNote = ProjectNotes.objects.get(id=projectNotesID)
+        new_workdiary.projectNotesID = projectNote
+        taskID = request.POST.get('taskID')
+        task = Tasks.objects.get(id=taskID)
+        new_workdiary.taskID = task
+        taskNotesID = request.POST.get('taskNotesID')
+        taskNote = TaskNotes.objects.get(id=taskNotesID)
+        new_workdiary.taskNotesID = taskNote
+        WorkDiary.objects.create(userID=new_workdiary.userID, name=new_workdiary.name, date=new_workdiary.date,
+                                 projectID=new_workdiary.projectID, projectNotesID=new_workdiary.projectNotesID,
+                                 taskID=new_workdiary.taskID, taskNotesID=new_workdiary.taskNotesID)
+
+        return redirect('/PyTraker/workdiary')
     else:
         diary_form = WorkDiaryForm()
-    return render(request, 'PyTraker/workdiary_add.html', {'workdiary_add': diary_form})
+
+    context = {
+        'workdiary_add': diary_form,
+    }
+    return render(request, 'PyTraker/workdiary_add.html', context)
 
 
+@login_required
 def workdiary_edit(request, pk):
     workdiary = get_object_or_404(WorkDiary, pk=pk)
     edit_diary = WorkDiaryForm(instance=workdiary)
@@ -357,6 +404,7 @@ def workdiary_edit(request, pk):
     return render(request, 'PyTraker/workdiary_edit.html', {'workdiary_edit': edit_diary, 'workdiary': workdiary})
 
 
+@login_required
 def workdiary_details(request, pk):
     workdiary = get_object_or_404(WorkDiary, pk=pk)
     if request.method == "POST":
@@ -367,38 +415,43 @@ def workdiary_details(request, pk):
         new_comment.user = my_p
         new_comment.comment = request.POST.get('comment')
         new_comment.workdiary = workdiary
-        #new_comment.comment_date = parse_date(request.POST.get('comment_date'))
+        # new_comment.comment_date = parse_date(request.POST.get('comment_date'))
         new_comment.comment_date = datetime.now()
-        #print(new_comment.user)
-        #print(new_comment.comment_date)
-        #print(new_comment.comment)
-        Comments.objects.create(user=new_comment.user,comment=new_comment.comment,comment_date=new_comment.comment_date,workdiary=new_comment.workdiary)
+        # print(new_comment.user)
+        # print(new_comment.comment_date)
+        # print(new_comment.comment)
+        Comments.objects.create(user=new_comment.user, comment=new_comment.comment,
+                                comment_date=new_comment.comment_date, workdiary=new_comment.workdiary)
     comments = Comments.objects.filter(workdiary=pk)
     date = datetime.now()
     context = {
         'object': comments,
-        'time' : defaultfilters.date(date, "Y-m-d h:i A"),
+        'time': defaultfilters.date(date, "Y-m-d h:i A"),
         'workdiary': workdiary
 
     }
     return render(request, 'PyTraker/workdiary_detail.html', context)
 
+
+@login_required
 def comment_delete(request, comment_id):
     obj = get_object_or_404(Comments, id=comment_id)
     if request.method == "POST":
         obj.delete()
         return redirect('/PyTraker/workdiary')
     context = {
-        "object":obj
+        "object": obj
     }
     return render(request, "PyTraker/comment_delete.html", context)
 
 
+@login_required
 def workdiary_delete(request, pk):
     workdiary = get_object_or_404(WorkDiary, pk=pk)
     return render(request, 'PyTraker/workdiary_delete.html', {'workdiary': workdiary})
 
 
+@login_required
 def workdiary_conf_delete(request, pk):
     pk = int(pk)
     del_workdiary = WorkDiary.objects.get(id=pk)
@@ -416,3 +469,24 @@ class SearchResultsView(ListView):
         object_list = Projects.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
         return object_list
 
+
+@login_required
+def user_profile(request, pk):
+    profile = get_object_or_404(Profile, user_id=pk)
+    return render(request, 'PyTraker/user_profile.html', {'profile': profile})
+
+
+@login_required
+def user_profile_edit(request, pk):
+    userprofile = get_object_or_404(Profile, user_id=pk)
+    edit_profile = ProfileForm(instance=userprofile)
+    if request.method == "POST":
+        profile_form = ProfileForm(request.POST, instance=userprofile)
+        if profile_form.is_valid():
+            profile_form.save()
+            edit_profile = profile_form
+
+            return redirect('/PyTraker/index')
+
+    return render(request, 'PyTraker/user_profile_edit.html',
+                  {'user_profile_edit': edit_profile, 'userprofile': userprofile})

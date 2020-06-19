@@ -5,7 +5,7 @@
 
 
 {% if user.is_authenticated %}
-<h1> Welcome {{user}}, here is a list of your current list of projects  </h1>
+<h1> Welcome {{ user.profile.firstname }} {{ user.profile.lastname }}, here is a list of your current list of projects  </h1>
 
 {% if page_obj %}
     <div class="card-deck">
