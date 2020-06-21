@@ -40,12 +40,21 @@
 
 ### Task List (Week 5)
 
-- [ ] Continue working on Feature 2
-- [ ] Work on user auth on pages
+- [x] Continue working on Feature 2, completely functional
+- [x] Work on user profile views
 
 
 ### Task Status
-- Working.
+- Completed.
+
+### Task List (Week 6)
+
+- [ ] Work on final details of features
+- [ ] Finish styling
+
+
+### Task Status
+- Completed.
 
 ### Problems encountered and how was it resolved
 - Working on the same  pycharm project we are finding some issues with the files not working, decided to each work on the project separate and then put it together.

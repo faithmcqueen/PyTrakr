@@ -95,22 +95,20 @@ class InvoiceForm(forms.ModelForm):
 
 class WorkDiaryForm(forms.ModelForm):
     name = forms.CharField()
-    date = forms.DateTimeField()
 
     class Meta:
         model = WorkDiary
-        fields = ['userID', 'name', 'date', 'projectID', 'projectNotesID', 'taskID', 'taskNotesID']
+        fields = ['name', 'projectID', 'projectNotesID', 'taskID', 'taskNotesID']
 
-        # def clean_user(self, *args, **kwargs):
-        #   userID = self.cleaned_data.get("userID")
 
-#Create a task
+# Create a task
+
 class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(TaskForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs = {'class': 'form-control', }
-        self.fields['description'].widget.attrs = {'class': 'form-control',}
+        self.fields['description'].widget.attrs = {'class': 'form-control', }
         self.fields['projectID'].widget.attrs = {'class': 'form-control', }
         self.fields['due_date'].widget.attrs = {'class': 'form-control', }
 

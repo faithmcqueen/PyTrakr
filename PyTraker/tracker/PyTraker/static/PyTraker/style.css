@@ -8,3 +8,14 @@
 .btn-circle {
     border-radius: 50%;
 }
+
+.btn {
+    margin-top:1.5em;
+    margin-bottom:1.5em;
+}
+
+#logout-btn {
+    margin-top:0;
+    margin-left:0.5em;
+    margin-right:0.5em;
+}

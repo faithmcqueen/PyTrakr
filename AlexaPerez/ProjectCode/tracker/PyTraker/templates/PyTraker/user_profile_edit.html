@@ -1,0 +1,16 @@
+{% extends "PyTraker/header.html" %}
+
+{% block content %}
+
+<h2>Edit Profile</h2>
+    <div class="container">
+        <form action="/PyTraker/user_profile_edit/{{ user.id }}" method="post">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ user_profile_edit.as_p }}
+            <input type="submit" value="Confirm" class="btn btn-success">
+            <a href="/PyTraker/user_profile/{{ user.id }}" class="btn btn-primary" >Cancel</a>
+        </form>
+    </div>
+
+{% endblock %}

@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
+from .views import SearchResultsView
+
+
 app_name = 'PyTraker'
 urlpatterns = [
     path('', views.home, name="home"),
@@ -10,7 +13,7 @@ urlpatterns = [
     path('PyTraker/login', views.login_page, name="login"),
     path("PyTraker/logout", views.log_out, name="logout"),
 
-    path("PyTraker/invoice/<int:invoices_id>/", views.invoice, name="invoice"),
+    path("PyTraker/invoice/<int:project_id>/", views.invoice, name="invoice"),
     path("PyTraker/list_invoices/", views.invoice_list, name="list_invoices"),
     path("PyTraker/new_invoice/", views.new_invoice, name="new_invoice"),
     path("PyTraker/edit_invoice/<int:invoices_id>/", views.edit_invoice, name="edit_invoice"),
@@ -35,6 +38,11 @@ urlpatterns = [
     path("PyTraker/workdiary_edit/<int:pk>", views.workdiary_edit, name="workdiary_edit"),
     path("PyTraker/workdiary_detail/<int:pk>", views.workdiary_details, name="workdiary_detail"),
     path("PyTraker/workdiary_delete/<int:pk>", views.workdiary_delete, name="workdiary_delete"),
-    path("PyTraker/workdiary_conf_delete/<int:pk>", views.workdiary_conf_delete, name="workdiary_conf_delete")
+    path("PyTraker/workdiary_conf_delete/<int:pk>", views.workdiary_conf_delete, name="workdiary_conf_delete"),
 
+    path('search/', SearchResultsView.as_view(), name='search_results'),
+    path("PyTraker/user_profile/<int:pk>", views.user_profile, name="user_profile"),
+    path("PyTraker/user_profile_edit/<int:pk>", views.user_profile_edit, name="user_profile_edit"),
+
+    path('PyTraker/noteboard', views.note_board)
 ]

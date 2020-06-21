@@ -20,6 +20,9 @@
       </li>
         {% if user.is_authenticated %}
       <li class="nav-item">
+        <a class="nav-link" href="/PyTraker/user_profile/{{ request.user.id }}">Profile</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/PyTraker/workdiary">Work Diary</a>
       </li>
       <li class="nav-item dropdown">
@@ -29,6 +32,8 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/PyTraker/list_projects">List</a>
           <a class="dropdown-item" href="/PyTraker/new_project">Add New</a>
+            <a class="dropdown-item" href="/PyTraker/list_invoices">Invoices</a>
+
         </div>
       </li>
             <li class="nav-item dropdown">
@@ -40,9 +45,12 @@
           <a class="dropdown-item" href="/PyTraker/new_task">Add New</a>
         </div>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/PyTraker/noteboard">Note Board</a>
+      </li>
     </ul>
 
-      <div class="nav-item">Hello, {{ request.user }} </div>  <a href="#" onClick="document.getElementById('logoutform').submit()"><button type="button" class="btn btn-dark" >Logout</button></a>
+      <div class="nav-item">Hello, {{ request.user }} </div>  <a href="#" onClick="document.getElementById('logoutform').submit()"><button type="button" class="btn btn-dark" id="logout-btn">Logout</button></a>
 <form id="logoutform" method="POST"  action="{% url 'PyTraker:logout' %}">
 {% csrf_token %}
 <input type="hidden">
@@ -50,8 +58,8 @@
 {% else %}
 <a href="{% url 'PyTraker:sign_up' %}" class="nav-link"  >Sign up</a>  <a href="/PyTraker/login/?next=/" class="nav-link" >Login</a>
 {% endif %}
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0" action="/search" method="get">
+      <input class="form-control mr-sm-2"name='q' type="text" placeholder="Search by Projects" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
