@@ -12,7 +12,7 @@ from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, Pro
     TaskForm
 from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary
 
-from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm
+from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm,TimerForm
 from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, Profile
 
 # for import date and time
@@ -287,8 +287,29 @@ def edit_project(request, pk):
 
 def details_project(request, pk):
     project = get_object_or_404(Projects, pk=pk)
-    tasks = Tasks.objects.filter(projectID_id=project.pk)
-    return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks})
+
+    if request.method == 'POST':
+        new_timer = TimerForm()
+        new_timer.startTime = request.POST.get('stime')
+        new_timer.endTime = request.POST.get('stoptime')
+        new_timer.totaltime = request.POST.get('totaltime')
+        id = request.POST.get('projectid')
+        project = Projects.objects.get(id=id)
+        Timers.objects.create(startTime=new_timer.startTime, endTime=new_timer.endTime, totaltime=new_timer.totaltime,
+                              projectID=project)
+    date = datetime.now()
+    timer = Timers.objects.filter(projectID=pk)
+    context = {
+        'project':project,
+        'time':defaultfilters.date(date, "h:i:s "),
+        'stime':defaultfilters.date(date,'Y-m-d h:i:s'),
+        'spentdate':defaultfilters.date(date,'Y-m-d'),
+        'daylight':defaultfilters.date(date,''),
+        'timer':timer
+    }
+    return render(request, 'PyTraker/details_project.html', context)
+
+
 
 def list_projects(request):
     project_list = Projects.objects.order_by('dueDate')

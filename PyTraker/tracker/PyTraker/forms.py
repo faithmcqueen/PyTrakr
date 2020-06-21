@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Profile, Comments, Projects, Invoices, Clients, WorkDiary, Tasks
+from .models import Profile, Comments, Projects, Invoices, Clients, WorkDiary, Tasks,Timers
 
 # for import date and time
 from _datetime import datetime
@@ -48,6 +48,14 @@ class CommentForm(forms.ModelForm):
     def clean_user(self, *args, **kwargs):
         user = self.cleaned_data.get("user")
 
+class TimerForm(forms.ModelForm):
+    class Meta:
+        model = Timers
+        fields = [
+            'startTime',
+            'endTime',
+            'totaltime',
+        ]
 
 class CommentRawProduction(forms.Form):
     user = forms.CharField()

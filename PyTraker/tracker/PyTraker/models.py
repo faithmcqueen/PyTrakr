@@ -51,7 +51,8 @@ class Tasks(models.Model):
 class Timers(models.Model):
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
-    taskID = models.ForeignKey(Tasks, on_delete=models.CASCADE)
+    totaltime = models.CharField(max_length=100,default="0")
+    projectID = models.ForeignKey(Projects, on_delete=models.CASCADE,default='1')
 
 
 class TaskNotes(models.Model):
