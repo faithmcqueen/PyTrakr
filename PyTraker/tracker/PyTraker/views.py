@@ -328,19 +328,25 @@ def details_project(request, pk):
         new_timer.startTime = request.POST.get('stime')
         new_timer.endTime = request.POST.get('stoptime')
         new_timer.totaltime = request.POST.get('totaltime')
+        #selected task
+        tid = request.POST.get('task')
+        tsk = Tasks.objects.get(pk=tid)
+
         id = request.POST.get('projectid')
         project = Projects.objects.get(id=id)
         Timers.objects.create(startTime=new_timer.startTime, endTime=new_timer.endTime, totaltime=new_timer.totaltime,
-                              projectID=project)
+                              projectID=project,task=tsk)
     date = datetime.now()
     timer = Timers.objects.filter(projectID=pk)
+    task = Tasks.objects.filter(projectID=pk)
     context = {
         'project':project,
         'time':defaultfilters.date(date, "h:i:s "),
         'stime':defaultfilters.date(date,'Y-m-d h:i:s'),
         'spentdate':defaultfilters.date(date,'Y-m-d'),
         'daylight':defaultfilters.date(date,''),
-        'timer':timer
+        'timer':timer,
+        'task':task
     }
     return render(request, 'PyTraker/details_project.html', context)
 

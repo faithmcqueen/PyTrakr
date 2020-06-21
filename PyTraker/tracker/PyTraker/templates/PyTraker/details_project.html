@@ -88,11 +88,17 @@
     </section>
     <form method="post" action="">
         {% csrf_token %}
-        <label>Start Time: </label>
+        <label>Start Time:</label>
         <input type="text" value="{{ stime }}" id="stime" name="stime"/>
         <label>End Time:</label>
         <input type="text" value="" id="stoptime" name="stoptime" />
         <input type="hidden" id="totaltime" name="totaltime" />
+        <label>Task:</label>
+        <select name="task">
+            {% for t in task %}
+            <option value="{{ t.id }}" name="task">{{ t.name }}</option>
+            {% endfor %}
+        </select>
         <input type="hidden" id="projectid" name="projectid" value="{{ project.id }}" />
         <input type="submit" value="Submit" name="submit" />
     </form>
