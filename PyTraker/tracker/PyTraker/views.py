@@ -122,16 +122,34 @@ def invoice_list(request):
 
 
 @login_required
-def new_invoice(request):
-    invoice_form = InvoiceForm(request.POST or None)
-    # Checking if the form is valid
-    if invoice_form.is_valid():
-        invoice_form.save()
-        invoice_form = InvoiceForm()
-    context = {
-        'invoice_form': invoice_form
-    }
-    return render(request, "PyTraker/new_invoice.html", context)
+def new_invoice(request, project_id):
+    # AUTO POPULATING THE FORM THE FIRST TIME AROUND
+    # Get user information
+    current_user = request.user
+    userID = User.objects.get(id=current_user.id)
+
+    # Get the project information
+    project = Projects.objects.get(id=project_id)
+    form = InvoiceForm(initial={
+        'userID': userID,
+        'projectID': project.id,
+        'dateCreated': datetime.now(),
+        'dueDate': ""
+    })
+
+    #Process form if is being sent by post
+    if request.method == 'POST':
+        filled_form = InvoiceForm(request.POST)
+        if filled_form.is_valid():
+            filled_form.save()
+            note = "Invoice created!"
+            return render(request, 'PyTraker/new_invoice.html', {'note': note, 'form': form})
+            #return redirect('PyTraker/details_project/'+str(project_id))
+
+    return render(request, "PyTraker/new_invoice.html", {'form': form})
+
+
+
 
 
 @login_required
@@ -339,6 +357,11 @@ def details_project(request, pk):
     date = datetime.now()
     timer = Timers.objects.filter(projectID=pk)
     task = Tasks.objects.filter(projectID=pk)
+    tasks = Tasks.objects.filter(projectID_id=project.pk)
+    try:
+        invoice = Invoices.objects.get(projectID_id=pk)
+    except Invoices.DoesNotExist:
+        invoice = 'false'
     context = {
         'project':project,
         'time':defaultfilters.date(date, "h:i:s "),
@@ -346,18 +369,15 @@ def details_project(request, pk):
         'spentdate':defaultfilters.date(date,'Y-m-d'),
         'daylight':defaultfilters.date(date,''),
         'timer':timer,
-        'task':task
+        'task':task,
+        'invoice':invoice
     }
     return render(request, 'PyTraker/details_project.html', context)
 
 
 
-    tasks = Tasks.objects.filter(projectID_id=project.pk)
-    try:
-        invoice = Invoices.objects.get(projectID_id=pk)
-    except Invoices.DoesNotExist:
-        invoice = 'false'
-    return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks, 'invoice': invoice})
+
+    #return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks, 'invoice': invoice})
 
 
 

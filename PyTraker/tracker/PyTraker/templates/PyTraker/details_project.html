@@ -122,7 +122,7 @@
     <a href="/PyTraker/delete_project/{{ project.id }}"  class="btn btn-danger"  id ='{{project.id}}'>Delete</a>
       <!--Check if an invoice exist -->
       {% if invoice == 'false' %}
-      <a href="/PyTraker/new_invoice/" class="btn btn-info">Create Invoice</a>
+      <a href="/PyTraker/new_invoice/{{ project.id }}" class="btn btn-info">Create Invoice</a>
 
       {% else %}
 

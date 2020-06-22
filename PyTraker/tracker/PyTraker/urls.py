@@ -15,7 +15,7 @@ urlpatterns = [
 
     path("PyTraker/invoice/<int:project_id>/", views.invoice, name="invoice"),
     path("PyTraker/list_invoices/", views.invoice_list, name="list_invoices"),
-    path("PyTraker/new_invoice/", views.new_invoice, name="new_invoice"),
+    path("PyTraker/new_invoice/<int:project_id>/", views.new_invoice, name="new_invoice"),
     path("PyTraker/edit_invoice/<int:invoices_id>/", views.edit_invoice, name="edit_invoice"),
     path("PyTraker/comments/<int:comment_id>/", views.comment_detail_view, name="comment_detail"),
     path("PyTraker/comments/", views.comment_create_view, name="comment-add"),
