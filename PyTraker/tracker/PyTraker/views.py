@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm, InvoiceForm, WorkDiaryForm, \
     TaskForm
-from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary
+from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary, Noteboard_Note
 
 
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm,TimerForm
@@ -529,5 +529,19 @@ def user_profile_edit(request, pk):
 
 # Note_Board
 @login_required
-def note_board(request):
-    return render(request, 'PyTraker/noteboard.html')
+def noteboard(request):
+    notes = Noteboard_Note.objects.filter(userID=request.user.id)
+    context = { "notes": notes}
+    return render(request, 'PyTraker/noteboard.html', context)
+
+# Note_Board: Create a new note
+@login_required
+def noteboard_create(request):
+    return render(request, 'PyTraker/noteboard_create.html')
+
+# Note_Board: Update a note
+@login_required
+def noteboard_update(request):
+    note = "Note text should be here"
+    context = { "note": note }
+    return render(request, 'PyTraker/noteboard_update.html', context)

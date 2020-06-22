@@ -1,0 +1,20 @@
+{% extends "PyTraker/noteboard_base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+    <div class="input-group nb-new">
+      <div class="input-group-prepend">
+        <span class="input-group-text">New Note</span>
+      </div>
+      <textarea class="form-control" aria-label="With textarea">{{ note }}</textarea>
+    </div>
+
+    <div class="row d-flex justify-content-center">
+        <button type="button" class="btn btn-warning btn-lg">Update Note</button>
+    </div>
+    <p class="text-center"><a href="/PyTraker/noteboard">Cancel</a></p>
+</div>
+
+{% endblock %}

@@ -44,5 +44,8 @@ urlpatterns = [
     path("PyTraker/user_profile/<int:pk>", views.user_profile, name="user_profile"),
     path("PyTraker/user_profile_edit/<int:pk>", views.user_profile_edit, name="user_profile_edit"),
 
-    path('PyTraker/noteboard', views.note_board)
+    # NoteBoard
+    path('PyTraker/noteboard', views.noteboard),
+    path('PyTraker/noteboard-create', views.noteboard_create),
+    path('PyTraker/noteboard-update', views.noteboard_update)
 ]

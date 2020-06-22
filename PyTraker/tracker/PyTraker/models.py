@@ -96,3 +96,8 @@ class Comments(models.Model):
     comment = models.CharField(max_length=2000)
     comment_date = models.DateTimeField()
     workdiary = models.ForeignKey(WorkDiary, on_delete=models.CASCADE, default='1')
+
+
+class Noteboard_Note(models.Model):
+    userID = models.ForeignKey(User, on_delete=models.CASCADE)
+    note = models.TextField(max_length=750)
