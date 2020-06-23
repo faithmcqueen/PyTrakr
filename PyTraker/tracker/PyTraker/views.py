@@ -291,13 +291,14 @@ def new_project(request):
         if filled_form.is_valid():
             created_project = filled_form.save()
             created_project_pk = created_project.id
-            note = 'Your Project with %s has been added.' % (filled_form.cleaned_data['name'])
-            filled_form = ProjectForm()
-        else:
-            created_project_pk = None
-            note = "Your project was not created, please try again."
-        return render(request, 'PyTraker/new_project.html',
-                      {'created_project_pk': created_project_pk, 'new_project': filled_form, 'note': note})
+           # note = 'Your Project with %s has been added.' % (filled_form.cleaned_data['name'])
+            #filled_form = ProjectForm()
+        return redirect('/PyTraker/index')
+       # else:
+        #    created_project_pk = None
+         #   note = "Your project was not created, please try again."
+       # return render(request, 'PyTraker/new_project.html', {'note': note})
+                 #    {'created_project_pk': created_project_pk, 'new_project': filled_form, 'note': note})
     else:
         form = ProjectForm()
         return render(request, 'PyTraker/new_project.html', {'new_project': form})
@@ -368,15 +369,31 @@ def list_projects(request):
     return render(request, 'PyTraker/list_projects.html', context)
 
 
+# def delete_project(request, pk):
+#     pk = int(pk)
+#     try:
+#         project_sel = Projects.objects.get(id=pk)
+#     except Projects.DoesNotExist:
+#         return redirect('/PyTraker/index')
+#     project_sel.delete()
+#     return redirect('/PyTraker/index')
+
 @login_required
 def delete_project(request, pk):
+    project = get_object_or_404(Projects, pk=pk)
+    return render(request, 'PyTraker/delete_project.html', {'project': project})
+
+
+@login_required
+def delete_project_conf(request, pk):
     pk = int(pk)
-    try:
-        project_sel = Projects.objects.get(id=pk)
-    except Projects.DoesNotExist:
-        return redirect('/PyTraker/index')
-    project_sel.delete()
+    del_project = Projects.objects.get(id=pk)
+    del_project.delete()
     return redirect('/PyTraker/index')
+
+
+
+
 
 
 # Work Diary Views

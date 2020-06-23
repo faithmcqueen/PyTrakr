@@ -77,11 +77,11 @@
     }
 
 </script>
-<div>
+<div class="container">
     <section id="stopWatch"> <p id="timer"> Time : 00:00:00 </p>
-        <button id="start" onclick="start()"> Start </button>
-        <button id="stop" onclick="stop()"> Stop </button>
-        <button id="reset" onclick="reset()"> Reset </button>
+        <button id="start" class="btn btn-success" onclick="start()"> Start </button>
+        <button id="stop" class="btn btn-danger" onclick="stop()"> Stop </button>
+        <button id="reset" class="btn btn-warning" onclick="reset()"> Reset </button>
         <p id="fulltime" style="display:none">{{ time }}</p>
         <p id="spentdate" style="display:none">{{ spentdate }}</p>
 
@@ -100,7 +100,7 @@
             {% endfor %}
         </select>
         <input type="hidden" id="projectid" name="projectid" value="{{ project.id }}" />
-        <input type="submit" value="Submit" name="submit" />
+        <input type="submit" value="Submit" class="btn btn-info" name="submit" />
     </form>
 
 </div>
