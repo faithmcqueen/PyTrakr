@@ -5,7 +5,6 @@ _*by Hilmi Yildirim*_
 
 The users will have a board to take notes similar to sticky notes on Windows. 
 They will be able to create, update, delete notes on the board to keep the additional information. 
-On the board, the users will create note cards by using different colors and setting different sizes. 
 As the users complete their tasks on the website and track their works, 
 this feature will be a nice tool to keep extra information handy.  
   
