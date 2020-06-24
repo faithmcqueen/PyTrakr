@@ -11,9 +11,9 @@ this feature will be a nice tool to keep extra information handy.
   
 ### Screenshots  
   
-<img alt="NoteBoard" src="images/nb0.png" width="1000" height="500">    
+<img alt="NoteBoard" src="nb0.png" width="800" height="600">    
   
-<img alt="Add Note" src="images/nb1.png" width="1000" height="500">  
+<img alt="Add Note" src="nb1.png" width="1000" height="300">  
   
 ## Weekly Task List  
   
