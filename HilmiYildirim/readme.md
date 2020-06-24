@@ -9,13 +9,11 @@ On the board, the users will create note cards by using different colors and set
 As the users complete their tasks on the website and track their works, 
 this feature will be a nice tool to keep extra information handy.  
   
-### ERD  
-
-<img alt="ERD for Notes" src="images/erd.png" width="1000" height="500">  
-
-### Wireframe  
-
-<img alt="Wireframe for Notes" src="images/wireframe.png" width="1000" height="500">  
+### Screenshots  
+  
+<img alt="NoteBoard" src="images/nb0.png" width="1000" height="500">    
+  
+<img alt="Add Note" src="images/nb1.png" width="1000" height="500">  
   
 ## Weekly Task List  
   
