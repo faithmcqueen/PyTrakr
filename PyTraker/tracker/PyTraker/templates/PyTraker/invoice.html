@@ -1,10 +1,75 @@
 {% extends "PyTraker/header.html" %}
+{% load mathfilters %}
+
 {% block content %}
+    <style>
+    table, td, th {
+        border: #222222 solid 1px;
+    }
+    th, td{
+        padding: 10px;
+    }
+    .task-list{
+        padding-top: 10px;
+        margin-left: 280px;
+
+    }
+
+    </style>
 
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
 <script>
-    function amount(price, hours){
-        return price*hours;
+    window.onload = function(){
+        //VARIABLES
+        var amounts = [];
+        var subtotal = 0;
+        var tax = 0;
+        var total = 0;
+
+        //LOGIC
+        for(var i = 0; i < 6; i++){
+            var time  = document.getElementsByClassName('time')[i].innerHTML;
+            var rate = document.getElementsByClassName('rate')[i].innerHTML;
+            var amount = multiply(rate, time);
+            amounts.push(amount);
+            document.getElementsByClassName('amount')[i].innerHTML = amount;
+
+        }
+
+        console.log(amounts);
+
+        subtotal= subtotalf(amounts);
+        document.getElementById('subtotal').innerHTML = 'SUBTOTAL: '+ subtotal;
+
+        tax = taxf(subtotal);
+        document.getElementById('tax').innerHTML = 'TAX (13%): '+ tax.toFixed(2);
+
+        total = subtotal + tax;
+        document.getElementById('balance').innerHTML = 'BALANCE: '+ total;
+
+        //FUNCTIONS
+        //Function to multiply the amount of hours times the pay rate
+        function multiply(rate, time){
+            var amount = rate*time
+            return amount ;
+        }
+
+        //Function to calculate the subtotal
+        function subtotalf(amount){
+            var result = 0;
+            for(var i = 0; i < amount.length; i++){
+                result = result + amount[i];
+            }
+            return result;
+        }
+
+        //Function to calculate tax value
+        function taxf(subtotal) {
+            tax = subtotal * 0.13;
+            return tax;
+
+        }
 
     }
 
@@ -34,22 +99,11 @@
         <div>{{ client_email }}</div>
         <div>{{ client_phone }}</div>
     </div>
+{% for time in timers %}
+<div type="hidden">{{ time }}</div>
+{% endfor %}
 
     <!-- Working with loops -->
-    <style>
-    table, td, th {
-        border: #222222 solid 1px;
-    }
-    th, td{
-        padding: 10px;
-    }
-    .task-list{
-        padding-top: 10px;
-        margin-left: 280px;
-
-    }
-
-    </style>
     <table>
         <tr>
             <th >TASK</th>
@@ -60,17 +114,22 @@
         {% for task in tasks_list %}
         <tr>
             <td>{{ task }}</td>
-            <td>{{ hourly_rate }}</td>
-            <td>2</td>
-            <td>{% widthratio hourly_rate 1 2 %}</td>
+            <td class="rate">{{ hourly_rate }}</td>
+            <td class="time">4</td>
+            <td class="amount"></td>
+
+
         </tr>
         {% endfor %}
-    </table>
-    <div class="task-list">
-        <div> SUBTOTAL: </div>
-        <div> TAX (13%):</div>
-        <div> BALANCE:</div>
-    </div>
 
+    </table>
+
+
+
+    <div class="task-list">
+        <div id="subtotal"> </div>
+        <div id="tax"></div>
+        <div id="balance"> BALANCE:</div>
+    </div>
 
 {% endblock %}

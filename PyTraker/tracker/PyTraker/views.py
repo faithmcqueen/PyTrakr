@@ -94,7 +94,10 @@ def invoice(request, project_id):
     # Get the invoice whose project id is the one being passed
 
     obj = Invoices.objects.get(projectID_id=project_id)
+    #list of tasks
     tasks = Tasks.objects.filter(projectID_id=obj.projectID)
+    #list of timers for the project
+    timers = Timers.objects.filter(projectID_id=obj.projectID)
     context = {
         'invoice_id': obj.id,
         'project_id': obj.projectID,
@@ -102,14 +105,15 @@ def invoice(request, project_id):
         'client_name': obj.projectID.clientID.name,
         'client_email': obj.projectID.clientID.email,
         'client_phone': obj.projectID.clientID.phone,
-        # 'user_fname': obj.userID.firstname,
-        # 'user_lname': obj.userID.lastname,
+        'user_fname': obj.userID.first_name,
+        'user_lname': obj.userID.last_name,
         'user_email': obj.userID.email,
-        # 'user_phone': obj.userID.phonenumber,
+        #'user_phone': obj.userID.phonenumber,
         'date_created': obj.dateCreated,
         'date_due': obj.dueDate,
         'hourly_rate': obj.projectID.payRate,
         'tasks_list': tasks,
+        'timers': timers
     }
     return render(request, "PyTraker/invoice.html", context)
 
