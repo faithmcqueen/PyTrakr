@@ -1,4 +1,14 @@
-<form method="post">{% csrf_token %}
-	<p>Are you sure you want to delete "{{ object }}"?</p>
-	<input type="submit" value="Confirm">
-</form>
+{% extends "PyTraker/header.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="alert alert-danger" role="alert">
+            Are you sure you want to delete Project:  " {{ project.name }} " ?
+
+    </div>
+
+    <a href="/PyTraker/delete_project_conf/{{ project.id }}"  class="btn btn-danger"  id ='{{ project.id }}'>Delete</a>
+    <a href="/PyTraker/index" class="btn btn-primary" >Cancel</a>
+
+</div>
+{% endblock %}

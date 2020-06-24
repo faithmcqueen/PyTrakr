@@ -19,3 +19,39 @@
     margin-left:0.5em;
     margin-right:0.5em;
 }
+
+.nb-card{
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 350px;
+    vertical-align: top;
+    border: 2px solid black;
+}
+
+.nb-card p{
+    height: 200px;
+    overflow-y: auto;
+}
+
+.nb-update{
+    background: orange;
+    padding: 5px;
+    color: black;
+    border-radius: 20%;
+}
+
+.nb-delete{
+    background: red;
+    padding: 5px;
+    color: black;
+    border-radius: 20%;
+}
+
+.nb-new{
+    margin-top: 20px;
+}
+
+.nb-new textarea{
+    height: 200px;
+    min-height: 50px;
+}

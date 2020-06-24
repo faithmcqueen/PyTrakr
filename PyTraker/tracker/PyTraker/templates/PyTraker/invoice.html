@@ -1,5 +1,14 @@
 {% extends "PyTraker/header.html" %}
 {% block content %}
+
+<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+<script>
+    function amount(price, hours){
+        return price*hours;
+
+    }
+
+</script>
 <a href="/PyTraker/edit_invoice/{{ invoice_id }}" class="btn btn-warning">Edit</a>
     <a href="/PyTraker/delete_invoice/{{ invoice_id }}"  class="btn btn-danger"  id ='{{project.id}}'>Delete</a>
     <!-- If the inovice exists do this-->
@@ -8,7 +17,7 @@
     <div style="padding-bottom: 2em;">
         <div>Invoice #{{ invoice_id }}</div>
         <div>Invoice Date: {{ date_created }}</div>
-        <div>Due Date: {{ due_date }}</div>
+        <div>Due Date: {{ date_due }}</div>
     </div>
 
     <!-- User's Information -->

@@ -2,10 +2,10 @@
 
 {% block content %}
 <h1>New Invoice</h1>
-
-<form method="post">
+<h2>{{ note }}</h2>
+<form method="post" action="">
     {% csrf_token %}
-    {{ invoice_form.as_p }}
+    {{ form.as_p }}
     <!--{% csrf_token %}
     {{ invoice_form }}-->
     <div>

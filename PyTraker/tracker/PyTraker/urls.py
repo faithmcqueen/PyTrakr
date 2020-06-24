@@ -15,7 +15,7 @@ urlpatterns = [
 
     path("PyTraker/invoice/<int:project_id>/", views.invoice, name="invoice"),
     path("PyTraker/list_invoices/", views.invoice_list, name="list_invoices"),
-    path("PyTraker/new_invoice/", views.new_invoice, name="new_invoice"),
+    path("PyTraker/new_invoice/<int:project_id>/", views.new_invoice, name="new_invoice"),
     path("PyTraker/edit_invoice/<int:invoices_id>/", views.edit_invoice, name="edit_invoice"),
     path("PyTraker/comments/<int:comment_id>/", views.comment_detail_view, name="comment_detail"),
     path("PyTraker/comments/", views.comment_create_view, name="comment-add"),
@@ -32,6 +32,7 @@ urlpatterns = [
     path("PyTraker/edit_project/<int:pk>", views.edit_project, name="edit_project"),
     path("PyTraker/details_project/<int:pk>", views.details_project, name="details_project"),
     path("PyTraker/delete_project/<int:pk>", views.delete_project, name="delete_project"),
+    path("PyTraker/delete_project_conf/<int:pk>", views.delete_project_conf, name="delete_project_conf"),
     path("PyTraker/list_projects", views.list_projects, name="list_projects"),
     path("PyTraker/workdiary", views.workdiary, name="workdiary"),
     path("PyTraker/workdiary_add", views.workdiary_add, name="workdiary_add"),
@@ -44,5 +45,8 @@ urlpatterns = [
     path("PyTraker/user_profile/<int:pk>", views.user_profile, name="user_profile"),
     path("PyTraker/user_profile_edit/<int:pk>", views.user_profile_edit, name="user_profile_edit"),
 
-    path('PyTraker/noteboard', views.note_board)
+    # NoteBoard
+    path('PyTraker/noteboard', views.noteboard),
+    path('PyTraker/noteboard-create', views.noteboard_create),
+    path('PyTraker/noteboard-update', views.noteboard_update)
 ]
