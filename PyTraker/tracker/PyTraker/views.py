@@ -574,11 +574,26 @@ def noteboard(request):
 # Note_Board: Create a new note
 @login_required
 def noteboard_create(request):
+    if request.method == "POST":
+        newNoteText = request.POST['newNoteText']
+        newNote = Noteboard_Note(userID=request.user, note=newNoteText)
+        newNote.save()
+        return redirect('/PyTraker/noteboard')
     return render(request, 'PyTraker/noteboard_create.html')
 
 # Note_Board: Update a note
 @login_required
-def noteboard_update(request):
-    note = "Note text should be here"
+def noteboard_update(request, noteId):
+    note = Noteboard_Note.objects.get(id=int(noteId))
+    if request.method == "POST":
+        note.note = request.POST['updatedText']
+        note.save()
+        return redirect('/PyTraker/noteboard')
     context = { "note": note }
     return render(request, 'PyTraker/noteboard_update.html', context)
+
+# Note_Board: Update a note
+@login_required
+def noteboard_delete(request, noteId):
+    Noteboard_Note.objects.get(id=int(noteId)).delete()
+    return redirect('/PyTraker/noteboard')
