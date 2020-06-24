@@ -16,38 +16,30 @@ this feature will be a nice tool to keep extra information handy.
 *Add a new note*
 <img alt="Add Note" src="nb1.png" width="1000" height="300">  
   
-## Weekly Task List  
+## Task List  
   
-### ----- Week 1 -----
-  
-**Learning Items & Notes**  
+### Learning Items & Notes
 - [x] Python Crash Course
-- [x] Django Hello World  
+- [x] Django course intro
+- [x] Django Hello World project  
+- [x] Django models
+- [x] Django views & urls
+- [x] Django forms
 
-**Action Items & Task Status**  
+### Action Items   
+- [x] Project Setup: PyCharm, Django, GitHub Repo, ...   
 - [x] ERD  
-- [x] Wireframe  
-- [x] Submit Project Phase 1
-- [x] Week 1 Group Meeting  
-  
-### ----- Week 2 -----
-  
-**Learning Items & Notes**
-- [ ] Django Lessons  
-- [ ] SASS Crash Course  
+- [x] Design & Wireframes
+- [x] Implementing Models & Admin management
+- [x] Coding Templates (HTML/CSS)
+- [x] Building Views & URLs
+- [x] Completing the CRUD functions
 
-**Action Items & Task Status** 
-- [ ] Project Setup: PyCharm, Django, GitHub Repo, ...   
-- [ ] Submit Project Phase 2
-- [ ] Week 2 Group Meeting  
-  
-### ----- Week 3 -----
-  
-**Learning Items & Notes**
-- [ ]   
-- [ ] 
+- [x] Project Phase Submissions  
+- [x] Group Meetings  
+   
 
-**Action Items & Task Status** 
-- [ ]  
-- [ ] 
-- [ ] 
+  
+
+
+
