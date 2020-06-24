@@ -11,8 +11,10 @@ this feature will be a nice tool to keep extra information handy.
   
 ### Screenshots  
   
+*Note Board Main Page*  
 <img alt="NoteBoard" src="nb0.png" width="800" height="600">    
   
+*Add a new note*
 <img alt="Add Note" src="nb1.png" width="1000" height="300">  
   
 ## Weekly Task List  
