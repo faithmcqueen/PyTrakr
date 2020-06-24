@@ -6,11 +6,11 @@
   <div class="card">
     <h5 class="card-header">{{ profile.firstname }} {{ profile.lastname }}'s Profile</h5>
     <div class="card-body">
-      <h5 class="card-title">Username: {{ profile.user.username }}</h5>
-      <p class="card-text">First Name: {{ profile.firstname }}</p>
-      <p class="card-text">Last Name: {{ profile.lastname }}</p>
-      <p class="card-text">Phone Number: {{ profile.phonenumber }}</p>
-      <p class="card-text">Email: {{ profile.email }}</p>
+      <h5 class="card-title">Username:</h5> <p>{{ profile.user.username }}</p>
+      <h5 class="card-text">First Name:</h5> <p>{{ profile.firstname }}</p>
+      <h5 class="card-text">Last Name:</h5> <p>{{ profile.lastname }}</p>
+      <h5 class="card-text">Phone Number:</h5> <p>{{ profile.phonenumber }}</p>
+      <h5 class="card-text">Email:</h5> <p>{{ profile.email }}</p>
 
       <a href="/PyTraker/user_profile_edit/{{ user.id }}" class="btn btn-warning">Edit</a>
       <a href="/PyTraker/index" class="btn btn-primary" >Back</a>

@@ -6,19 +6,19 @@
   <div class="card">
     <h5 class="card-header">Work Diary Details for: {{ workdiary.name }}</h5>
     <div class="card-body">
-      <h5 class="card-title">Project: {{ workdiary.projectID.name }}</h5>
-      <p class="card-text">Date: {{ workdiary.date }}</p>
-      <p class="card-text">Project Notes: {{ workdiary.projectNotesID.note }}</p>
-      <p class="card-text">Task: {{ workdiary.taskID.name }}</p>
-      <p class="card-text">Task Notes: {{ workdiary.taskNotesID.note }}</p>
+        <h5 class="card-title">Project:</h5> <p>{{ workdiary.projectID.name }}</p>
+        <h5 class="card-text">Date:</h5> <p>{{ workdiary.date }}</p>
+        <h5 class="card-text">Project Notes:</h5> <p>{{ workdiary.projectNotes }}</p>
+        <h5 class="card-text">Task:</h5> <p>{{ workdiary.taskID.name }}</p>
+        <h5 class="card-text">Task Notes:</h5> <p>{{ workdiary.taskNotes }}</p>
 
       <div class="container">
     <div class="row">
         <div class="panel panel-default widget">
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-comment"></span>
-                <h3 class="panel-title">
-                    Recent Comments</h3>
+                <h5 class="panel-title" id="diary-comment-title">
+                    Recent Comments</h5>
             </div>
             {% if object %}
                 {% for comment in object %}
@@ -54,7 +54,7 @@
             </div>
             {% endfor %}
 {% else %}
-<h2>You don't have any comment for display </h2>
+<h6>You don't have any comment for display </h6>
 <!-- for django to stop the if else analysis -->
 {% endif %}
   <div class="input-group input-group-lg" style="width:1000px">

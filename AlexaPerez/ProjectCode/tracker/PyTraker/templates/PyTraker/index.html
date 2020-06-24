@@ -5,7 +5,8 @@
 
 
 {% if user.is_authenticated %}
-<h1> Welcome {{ user.profile.firstname }} {{ user.profile.lastname }}, here is a list of your current list of projects  </h1>
+<h1> {% if user.profile %} Welcome {{ user.profile.firstname }} {{ user.profile.lastname }}, here is a list of your current list of projects {% else %}
+Welcome {{ user.username }}, here is a list of your current list of projects{% endif%}</h1>
 
 {% if page_obj %}
     <div class="card-deck">
@@ -45,6 +46,8 @@
 <p>Would you like to add a new project?</p>
 <a class="btn btn-success" href= "/PyTraker/new_project">New Project</a>
 </div>
+{% else %}
+<div class="alert alert-secondary" id="logged-out">{{ mess }}</div>
 {% endif %}
 
 {% endblock %}

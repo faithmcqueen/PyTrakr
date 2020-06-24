@@ -30,13 +30,15 @@ from django.db.models import Q
 
 
 def home(request):
+    mess = 'Welcome to our Work Tracking Application!'
     project_list = Projects.objects.all()
     paginator = Paginator(project_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     # context = {'project_list': project_list}
 
-    return render(request, 'PyTraker/index.html', {'page_obj': page_obj})
+    return render(request, 'PyTraker/index.html', {'page_obj': page_obj, 'mess': mess})
 
 
 # return render(request, 'PyTraker/index.html')
@@ -72,20 +74,19 @@ def login_page(request):
 
             if user is None:
                 login(request, user)
-                messages.info(request, 'Username OR password is incorrect')
                 return redirect('login')
 
         context = {}
 
-    return render(request, 'PyTraker/login.html', context)
+        return render(request, 'PyTraker/login.html', context)
 
 
 def log_out(request):
     if request.method == "POST":
         logout(request)
 
-    messages.info(request, "Logged out successfully!")
-    return redirect('/PyTraker/index')
+    mess = "Logged out succesfully!"
+    return render(request, 'PyTraker/index.html', {'mess': mess})
 
 
 # Invoice Views
@@ -438,18 +439,14 @@ def workdiary_add(request):
         projectID = request.POST.get('projectID')
         project = Projects.objects.get(id=projectID)
         new_workdiary.projectID = project
-        projectNotesID = request.POST.get('projectNotesID')
-        projectNote = ProjectNotes.objects.get(id=projectNotesID)
-        new_workdiary.projectNotesID = projectNote
+        new_workdiary.projectNotes = request.POST.get('projectNotes')
         taskID = request.POST.get('taskID')
         task = Tasks.objects.get(id=taskID)
         new_workdiary.taskID = task
-        taskNotesID = request.POST.get('taskNotesID')
-        taskNote = TaskNotes.objects.get(id=taskNotesID)
-        new_workdiary.taskNotesID = taskNote
+        new_workdiary.taskNotes = request.POST.get('taskNotes')
         WorkDiary.objects.create(userID=new_workdiary.userID, name=new_workdiary.name, date=new_workdiary.date,
-                                 projectID=new_workdiary.projectID, projectNotesID=new_workdiary.projectNotesID,
-                                 taskID=new_workdiary.taskID, taskNotesID=new_workdiary.taskNotesID)
+                                 projectID=new_workdiary.projectID, projectNotes=new_workdiary.projectNotes,
+                                 taskID=new_workdiary.taskID, taskNotes=new_workdiary.taskNotes)
 
         return redirect('/PyTraker/workdiary')
     else:
