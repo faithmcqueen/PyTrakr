@@ -27,16 +27,16 @@ this feature will be a nice tool to keep extra information handy.
 - [x] Django forms
 
 ### Action Items   
-- [x] Project Setup: PyCharm, Django, GitHub Repo, ...   
-- [x] ERD  
+- [x] Project Setup: PyCharm, Django, GitHub Repo, ...
+- [x] ERD
 - [x] Design & Wireframes
 - [x] Implementing Models & Admin management
 - [x] Coding Templates (HTML/CSS)
 - [x] Building Views & URLs
 - [x] Completing the CRUD functions
-
-- [x] Project Phase Submissions  
-- [x] Group Meetings  
+  
+- [x] Project Phase Submissions
+- [x] Group Meetings
    
 
   
