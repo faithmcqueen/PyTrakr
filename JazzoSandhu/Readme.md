@@ -19,6 +19,21 @@
 * pass the data threw form Post or get tag
 * delete the object
 
+### Week - 4
+* styling the comments underneath the workdiary
+* design the delete and add functionality for the comments
+* pick the username and datetime automatically from the system
+* pass the list and add in the one view for the commentig
+
+### Week - 5
+* add the stopwatch on the project details page 
+* store the starttime, endtime, and total time in the db with the project id
+
+### Week - 6
+* update the stopwatch functionality
+* add the task dropdown list to the timer form
+* store the spent time on a project with the selected time in DB
+
 ## Learning Notes
 * notes from the python tutorials
 
