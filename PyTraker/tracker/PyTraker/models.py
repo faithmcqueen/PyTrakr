@@ -100,4 +100,4 @@ class Comments(models.Model):
 
 class Noteboard_Note(models.Model):
     userID = models.ForeignKey(User, on_delete=models.CASCADE)
-    note = models.TextField(max_length=750)
+    note = models.TextField()

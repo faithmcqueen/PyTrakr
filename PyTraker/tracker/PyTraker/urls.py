@@ -48,5 +48,6 @@ urlpatterns = [
     # NoteBoard
     path('PyTraker/noteboard', views.noteboard),
     path('PyTraker/noteboard-create', views.noteboard_create),
-    path('PyTraker/noteboard-update', views.noteboard_update)
+    path('PyTraker/noteboard-update/<int:noteId>', views.noteboard_update),
+    path('PyTraker/noteboard-delete/<int:noteId>', views.noteboard_delete)
 ]
