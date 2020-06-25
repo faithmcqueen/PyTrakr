@@ -55,6 +55,7 @@ class TimerForm(forms.ModelForm):
             'startTime',
             'endTime',
             'totaltime',
+            'totalhours',
         ]
 
 class CommentRawProduction(forms.Form):

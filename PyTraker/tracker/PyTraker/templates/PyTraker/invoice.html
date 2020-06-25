@@ -109,9 +109,6 @@
         <div>{{ client_email }}</div>
         <div>{{ client_phone }}</div>
     </div>
-{% for time in timers %}
-<div type="hidden">{{ timers }}</div>
-{% endfor %}
 
     <!-- Working with loops -->
     <table>
@@ -121,11 +118,13 @@
             <th>HOURS</th>
             <th>AMOUNT</th>
         </tr>
+        {{ tasks_list}}
         {% for task in tasks_list %}
+
         <tr>
             <td>{{ task }}</td>
             <td class="rate">{{ hourly_rate }}</td>
-            <td class="time">4</td>
+            <td class="time"></td>
             <td class="amount"></td>
 
         </tr>
@@ -140,5 +139,5 @@
         <div id="tax"></div>
         <div id="balance"> BALANCE:</div>
     </div>
-
+{{timers }}
 {% endblock %}

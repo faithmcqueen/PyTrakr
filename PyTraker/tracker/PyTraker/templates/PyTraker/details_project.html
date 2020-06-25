@@ -18,7 +18,11 @@
         document.getElementById('start').disabled = false;
         var now = document.getElementById('fulltime').innerHTML;
         var spent = document.getElementById('timer').innerHTML;
+        var hoursspent = document.getElementById('counterhours').innerHTML;
+        console.log(hoursspent);
         document.getElementById('totaltime').value = spent;
+        document.getElementById('totalhours').value = hoursspent;
+        console.log(document.getElementById('totalhours').value);
         var spentdate = document.getElementById('spentdate').innerHTML;
         //var daylight = document.getElementById('daylight').innerHTML;
         now = now.split(/\D/);
@@ -45,11 +49,15 @@
         time = 0;
         document.getElementById('start').disabled = false;
         document.getElementById('timer').innerHTML = "00:00:00:00";
+        document.getElementById('counterhours').innerHTML = 0;
     }
     function timer(){
         if(status == 1){
             setTimeout(function(){
                 time++;
+                //Total hours per timer
+                var totalhours = time/100/3600;
+
                 var hours = Math.floor(time/100/3600);
                 var min = Math.floor(time/100/60);
                 var sec = Math.floor(time/100);
@@ -70,7 +78,9 @@
                     msec = "0"+msec;
                 }
                 document.getElementById('timer').innerHTML = hours +":"+min+":"+sec+":"+msec;
+                document.getElementById('counterhours').innerHTML = totalhours;
                 timer();
+
 
             },10);
         }
@@ -93,6 +103,8 @@
         <label>End Time:</label>
         <input type="text" value="" id="stoptime" name="stoptime" />
         <input type="hidden" id="totaltime" name="totaltime" />
+        <input type="" id="totalhours" name="totalhours" />
+        <input type="hidden" id="counterhours" name="counterhours" />
         <label>Task:</label>
         <select name="task">
             {% for t in task %}

@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.template.defaulttags import register
 
 from django.db.models import Sum
 from django.db.models import Avg
@@ -91,6 +92,9 @@ def log_out(request):
     messages.info(request, "Logged out successfully!")
     return redirect('/PyTraker/index')
 
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
 
 # Invoice Views
 @login_required
@@ -100,9 +104,11 @@ def invoice(request, project_id):
     obj = Invoices.objects.get(projectID_id=project_id)
     #list of tasks
     tasks = Tasks.objects.filter(projectID_id=obj.projectID)
+    task_id = Tasks.pk
+    totalhours = Timers.totalhours
     #list of timers for the project
     timers = Timers.objects.filter(projectID_id=obj.projectID)
-    timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').aggregate(tasktotal=Sum('totaltime'))
+    timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').annotate(tasktotal=Sum('totalhours'))
     context = {
         'invoice_id': obj.id,
         'project_id': obj.projectID,
@@ -356,6 +362,8 @@ def details_project(request, pk):
         new_timer.startTime = request.POST.get('stime')
         new_timer.endTime = request.POST.get('stoptime')
         new_timer.totaltime = request.POST.get('totaltime')
+        new_timer.totalhours = request.POST.get('totalhours')
+
         #selected task
         tid = request.POST.get('task')
         tsk = Tasks.objects.get(pk=tid)
@@ -363,7 +371,7 @@ def details_project(request, pk):
         id = request.POST.get('projectid')
         project = Projects.objects.get(id=id)
         Timers.objects.create(startTime=new_timer.startTime, endTime=new_timer.endTime, totaltime=new_timer.totaltime,
-                              projectID=project,task=tsk)
+                              totalhours=new_timer.totalhours,projectID=project,task=tsk)
     date = datetime.now()
     timer = Timers.objects.filter(projectID=pk)
     task = Tasks.objects.filter(projectID=pk)

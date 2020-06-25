@@ -52,8 +52,10 @@ class Timers(models.Model):
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
     totaltime = models.CharField(max_length=100,default="0")
+    totalhours = models.DecimalField(max_digits=5, decimal_places=5, default=0)
     projectID = models.ForeignKey(Projects, on_delete=models.CASCADE,default='1')
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE, default='4')
+
 
 
 
