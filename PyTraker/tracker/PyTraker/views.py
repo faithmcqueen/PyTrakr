@@ -8,6 +8,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from django.db.models import Sum
+from django.db.models import Avg
+
+
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm, InvoiceForm, WorkDiaryForm, \
     TaskForm
 from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary, Noteboard_Note
@@ -26,7 +30,7 @@ from django.utils import timezone
 from django.template import defaultfilters
 from django.utils.dateparse import parse_date
 from django.views.generic import ListView
-from django.db.models import Q
+from django.db.models import Q, Sum
 
 
 def home(request):
@@ -98,6 +102,7 @@ def invoice(request, project_id):
     tasks = Tasks.objects.filter(projectID_id=obj.projectID)
     #list of timers for the project
     timers = Timers.objects.filter(projectID_id=obj.projectID)
+    timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').aggregate(tasktotal=Sum('totaltime'))
     context = {
         'invoice_id': obj.id,
         'project_id': obj.projectID,
@@ -113,7 +118,7 @@ def invoice(request, project_id):
         'date_due': obj.dueDate,
         'hourly_rate': obj.projectID.payRate,
         'tasks_list': tasks,
-        'timers': timers
+        'timers': timersum,
     }
     return render(request, "PyTraker/invoice.html", context)
 

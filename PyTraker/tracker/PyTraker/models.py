@@ -56,6 +56,7 @@ class Timers(models.Model):
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE, default='4')
 
 
+
 class TaskNotes(models.Model):
     note = models.TextField(max_length=250)
     taskID = models.ForeignKey(Tasks, on_delete=models.CASCADE)

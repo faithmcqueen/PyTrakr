@@ -71,6 +71,16 @@
 
         }
 
+        //Function to add all the time for that task
+        function addtasks(tasks){
+            var total = 0;
+            for(var i = 0; i < tasks.length; i++){
+                total = total + tasks[i];
+            }
+
+            return total;
+        }
+
     }
 
 </script>
@@ -100,7 +110,7 @@
         <div>{{ client_phone }}</div>
     </div>
 {% for time in timers %}
-<div type="hidden">{{ time }}</div>
+<div type="hidden">{{ timers }}</div>
 {% endfor %}
 
     <!-- Working with loops -->
@@ -117,7 +127,6 @@
             <td class="rate">{{ hourly_rate }}</td>
             <td class="time">4</td>
             <td class="amount"></td>
-
 
         </tr>
         {% endfor %}
