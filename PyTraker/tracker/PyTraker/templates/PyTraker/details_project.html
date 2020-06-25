@@ -1,9 +1,22 @@
 {% extends "PyTraker/header.html" %}
 
 {% block content %}
+<div class="container">
+<div class="card">
+  <h5 class="card-header">Your Past Spent Time: {{ project.name }}</h5>
+     <div class="card-body">
+    <h5 class="card-title"></h5>
 {% for time in timer %}
-<h5>Your Last Spent Time:{{time.totaltime }} on {{ time.startTime }}</h5>
+
+<p class="card-text" style="margin:3px">Your Last Spent Time:{{time.totaltime }} on {{ time.startTime }} on
+    {{time.task}}
+</p>
+
 {% endfor %}
+    </div>
+</div>
+</div>
+
 <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 <script>
     var status = 0;//0 for stop and 1 for running
@@ -38,6 +51,8 @@
         }
         if( m <10){
             m = "0" + m;
+        }if(s<10){
+            s="0"+s;
         }
 
         var spenttime = h+':'+m+':'+s;
@@ -50,6 +65,7 @@
         document.getElementById('start').disabled = false;
         document.getElementById('timer').innerHTML = "00:00:00:00";
         document.getElementById('counterhours').innerHTML = 0;
+        location.reload();
     }
     function timer(){
         if(status == 1){
@@ -88,7 +104,7 @@
 
 </script>
 <div class="container">
-    <section id="stopWatch"> <p id="timer"> Time : 00:00:00 </p>
+    <section id="stopWatch"> <p id="timer"  class="alert alert-primary" role="alert"> Time : 00:00:00 </p>
         <button id="start" class="btn btn-success" onclick="start()"> Start </button>
         <button id="stop" class="btn btn-danger" onclick="stop()"> Stop </button>
         <button id="reset" class="btn btn-warning" onclick="reset()"> Reset </button>
@@ -99,11 +115,12 @@
     <form method="post" action="">
         {% csrf_token %}
         <label>Start Time:</label>
-        <input type="text" value="{{ stime }}" id="stime" name="stime"/>
+        <input type="text" value="{{ stime }}" id="stime" name="stime"/><br/>
         <label>End Time:</label>
         <input type="text" value="" id="stoptime" name="stoptime" />
         <input type="hidden" id="totaltime" name="totaltime" />
-        <input type="" id="totalhours" name="totalhours" />
+        <br/><label>Task:</label>
+        <input type="hidden" id="totalhours" name="totalhours" />
         <input type="hidden" id="counterhours" name="counterhours" />
         <label>Task:</label>
         <select name="task">
@@ -112,7 +129,7 @@
             {% endfor %}
         </select>
         <input type="hidden" id="projectid" name="projectid" value="{{ project.id }}" />
-        <input type="submit" value="Submit" class="btn btn-info" name="submit" />
+        <br/><input type="submit" value="Submit" class="btn btn-info" name="submit" />
     </form>
 
 </div>

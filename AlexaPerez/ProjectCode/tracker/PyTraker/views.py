@@ -10,10 +10,15 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm, InvoiceForm, WorkDiaryForm, \
     TaskForm
-from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary
+from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, WorkDiary, Noteboard_Note
+
+
+from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm,TimerForm
+from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, Profile
 
 from .forms import UserForm, ProfileForm, CommentRawProduction, CommentForm, ProjectForm
 from .models import Invoices, Projects, Clients, Tasks, Timers, Comments, Profile, TaskNotes, ProjectNotes
+
 
 # for import date and time
 from _datetime import datetime
@@ -25,13 +30,15 @@ from django.db.models import Q
 
 
 def home(request):
+    mess = 'Welcome to our Work Tracking Application!'
     project_list = Projects.objects.all()
     paginator = Paginator(project_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     # context = {'project_list': project_list}
 
-    return render(request, 'PyTraker/index.html', {'page_obj': page_obj})
+    return render(request, 'PyTraker/index.html', {'page_obj': page_obj, 'mess': mess})
 
 
 # return render(request, 'PyTraker/index.html')
@@ -67,20 +74,19 @@ def login_page(request):
 
             if user is None:
                 login(request, user)
-                messages.info(request, 'Username OR password is incorrect')
                 return redirect('login')
 
         context = {}
 
-    return render(request, 'PyTraker/login.html', context)
+        return render(request, 'PyTraker/login.html', context)
 
 
 def log_out(request):
     if request.method == "POST":
         logout(request)
 
-    messages.info(request, "Logged out successfully!")
-    return redirect('/PyTraker/index')
+    mess = "Logged out succesfully!"
+    return render(request, 'PyTraker/index.html', {'mess': mess})
 
 
 # Invoice Views
@@ -117,16 +123,34 @@ def invoice_list(request):
 
 
 @login_required
-def new_invoice(request):
-    invoice_form = InvoiceForm(request.POST or None)
-    # Checking if the form is valid
-    if invoice_form.is_valid():
-        invoice_form.save()
-        invoice_form = InvoiceForm()
-    context = {
-        'invoice_form': invoice_form
-    }
-    return render(request, "PyTraker/new_invoice.html", context)
+def new_invoice(request, project_id):
+    # AUTO POPULATING THE FORM THE FIRST TIME AROUND
+    # Get user information
+    current_user = request.user
+    userID = User.objects.get(id=current_user.id)
+
+    # Get the project information
+    project = Projects.objects.get(id=project_id)
+    form = InvoiceForm(initial={
+        'userID': userID,
+        'projectID': project.id,
+        'dateCreated': datetime.now(),
+        'dueDate': ""
+    })
+
+    #Process form if is being sent by post
+    if request.method == 'POST':
+        filled_form = InvoiceForm(request.POST)
+        if filled_form.is_valid():
+            filled_form.save()
+            note = "Invoice created!"
+            return render(request, 'PyTraker/new_invoice.html', {'note': note, 'form': form})
+            #return redirect('PyTraker/details_project/'+str(project_id))
+
+    return render(request, "PyTraker/new_invoice.html", {'form': form})
+
+
+
 
 
 @login_required
@@ -286,13 +310,14 @@ def new_project(request):
         if filled_form.is_valid():
             created_project = filled_form.save()
             created_project_pk = created_project.id
-            note = 'Your Project with %s has been added.' % (filled_form.cleaned_data['name'])
-            filled_form = ProjectForm()
-        else:
-            created_project_pk = None
-            note = "Your project was not created, please try again."
-        return render(request, 'PyTraker/new_project.html',
-                      {'created_project_pk': created_project_pk, 'new_project': filled_form, 'note': note})
+           # note = 'Your Project with %s has been added.' % (filled_form.cleaned_data['name'])
+            #filled_form = ProjectForm()
+        return redirect('/PyTraker/index')
+       # else:
+        #    created_project_pk = None
+         #   note = "Your project was not created, please try again."
+       # return render(request, 'PyTraker/new_project.html', {'note': note})
+                 #    {'created_project_pk': created_project_pk, 'new_project': filled_form, 'note': note})
     else:
         form = ProjectForm()
         return render(request, 'PyTraker/new_project.html', {'new_project': form})
@@ -317,12 +342,45 @@ def edit_project(request, pk):
 @login_required
 def details_project(request, pk):
     project = get_object_or_404(Projects, pk=pk)
+
+    if request.method == 'POST':
+        new_timer = TimerForm()
+        new_timer.startTime = request.POST.get('stime')
+        new_timer.endTime = request.POST.get('stoptime')
+        new_timer.totaltime = request.POST.get('totaltime')
+        #selected task
+        tid = request.POST.get('task')
+        tsk = Tasks.objects.get(pk=tid)
+
+        id = request.POST.get('projectid')
+        project = Projects.objects.get(id=id)
+        Timers.objects.create(startTime=new_timer.startTime, endTime=new_timer.endTime, totaltime=new_timer.totaltime,
+                              projectID=project,task=tsk)
+    date = datetime.now()
+    timer = Timers.objects.filter(projectID=pk)
+    task = Tasks.objects.filter(projectID=pk)
     tasks = Tasks.objects.filter(projectID_id=project.pk)
     try:
         invoice = Invoices.objects.get(projectID_id=pk)
     except Invoices.DoesNotExist:
         invoice = 'false'
-    return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks, 'invoice': invoice})
+    context = {
+        'project':project,
+        'time':defaultfilters.date(date, "h:i:s "),
+        'stime':defaultfilters.date(date,'Y-m-d h:i:s'),
+        'spentdate':defaultfilters.date(date,'Y-m-d'),
+        'daylight':defaultfilters.date(date,''),
+        'timer':timer,
+        'task':task,
+        'invoice':invoice
+    }
+    return render(request, 'PyTraker/details_project.html', context)
+
+
+
+
+    #return render(request, 'PyTraker/details_project.html', {'project': project, 'tasks': tasks, 'invoice': invoice})
+
 
 
 @login_required
@@ -332,15 +390,31 @@ def list_projects(request):
     return render(request, 'PyTraker/list_projects.html', context)
 
 
+# def delete_project(request, pk):
+#     pk = int(pk)
+#     try:
+#         project_sel = Projects.objects.get(id=pk)
+#     except Projects.DoesNotExist:
+#         return redirect('/PyTraker/index')
+#     project_sel.delete()
+#     return redirect('/PyTraker/index')
+
 @login_required
 def delete_project(request, pk):
+    project = get_object_or_404(Projects, pk=pk)
+    return render(request, 'PyTraker/delete_project.html', {'project': project})
+
+
+@login_required
+def delete_project_conf(request, pk):
     pk = int(pk)
-    try:
-        project_sel = Projects.objects.get(id=pk)
-    except Projects.DoesNotExist:
-        return redirect('/PyTraker/index')
-    project_sel.delete()
+    del_project = Projects.objects.get(id=pk)
+    del_project.delete()
     return redirect('/PyTraker/index')
+
+
+
+
 
 
 # Work Diary Views
@@ -365,18 +439,14 @@ def workdiary_add(request):
         projectID = request.POST.get('projectID')
         project = Projects.objects.get(id=projectID)
         new_workdiary.projectID = project
-        projectNotesID = request.POST.get('projectNotesID')
-        projectNote = ProjectNotes.objects.get(id=projectNotesID)
-        new_workdiary.projectNotesID = projectNote
+        new_workdiary.projectNotes = request.POST.get('projectNotes')
         taskID = request.POST.get('taskID')
         task = Tasks.objects.get(id=taskID)
         new_workdiary.taskID = task
-        taskNotesID = request.POST.get('taskNotesID')
-        taskNote = TaskNotes.objects.get(id=taskNotesID)
-        new_workdiary.taskNotesID = taskNote
+        new_workdiary.taskNotes = request.POST.get('taskNotes')
         WorkDiary.objects.create(userID=new_workdiary.userID, name=new_workdiary.name, date=new_workdiary.date,
-                                 projectID=new_workdiary.projectID, projectNotesID=new_workdiary.projectNotesID,
-                                 taskID=new_workdiary.taskID, taskNotesID=new_workdiary.taskNotesID)
+                                 projectID=new_workdiary.projectID, projectNotes=new_workdiary.projectNotes,
+                                 taskID=new_workdiary.taskID, taskNotes=new_workdiary.taskNotes)
 
         return redirect('/PyTraker/workdiary')
     else:
@@ -490,3 +560,37 @@ def user_profile_edit(request, pk):
 
     return render(request, 'PyTraker/user_profile_edit.html',
                   {'user_profile_edit': edit_profile, 'userprofile': userprofile})
+
+# Note_Board
+@login_required
+def noteboard(request):
+    notes = Noteboard_Note.objects.filter(userID=request.user.id)
+    context = { "notes": notes}
+    return render(request, 'PyTraker/noteboard.html', context)
+
+# Note_Board: Create a new note
+@login_required
+def noteboard_create(request):
+    if request.method == "POST":
+        newNoteText = request.POST['newNoteText']
+        newNote = Noteboard_Note(userID=request.user, note=newNoteText)
+        newNote.save()
+        return redirect('/PyTraker/noteboard')
+    return render(request, 'PyTraker/noteboard_create.html')
+
+# Note_Board: Update a note
+@login_required
+def noteboard_update(request, noteId):
+    note = Noteboard_Note.objects.get(id=int(noteId))
+    if request.method == "POST":
+        note.note = request.POST['updatedText']
+        note.save()
+        return redirect('/PyTraker/noteboard')
+    context = { "note": note }
+    return render(request, 'PyTraker/noteboard_update.html', context)
+
+# Note_Board: Update a note
+@login_required
+def noteboard_delete(request, noteId):
+    Noteboard_Note.objects.get(id=int(noteId)).delete()
+    return redirect('/PyTraker/noteboard')

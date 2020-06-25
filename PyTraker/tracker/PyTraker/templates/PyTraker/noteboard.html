@@ -12,8 +12,8 @@
         <div class="card nb-card">
           <div class="card-body">
             <p class="card-text">{{ note.note }}</p>
-            <a href="/PyTraker/noteboard-update" class="card-link nb-update">Update</a>
-            <a href="#" class="card-link nb-delete">Delete</a>
+            <a href="/PyTraker/noteboard-update/{{note.id}}" class="card-link nb-update">Update</a>
+            <a href="/PyTraker/noteboard-delete/{{note.id}}" class="card-link nb-delete">Delete</a>
           </div>
         </div>
     {% endfor %}

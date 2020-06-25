@@ -49,8 +49,8 @@
 
 ### Task List (Week 6)
 
-- [ ] Work on final details of features
-- [ ] Finish styling
+- [X] Work on final details of features
+- [X] Finish styling
 
 
 ### Task Status

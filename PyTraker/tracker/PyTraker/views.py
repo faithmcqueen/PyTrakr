@@ -35,13 +35,15 @@ from django.db.models import Q, Sum
 
 
 def home(request):
+    mess = 'Welcome to our Work Tracking Application!'
     project_list = Projects.objects.all()
     paginator = Paginator(project_list, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     # context = {'project_list': project_list}
 
-    return render(request, 'PyTraker/index.html', {'page_obj': page_obj})
+    return render(request, 'PyTraker/index.html', {'page_obj': page_obj, 'mess': mess})
 
 
 # return render(request, 'PyTraker/index.html')
@@ -77,20 +79,19 @@ def login_page(request):
 
             if user is None:
                 login(request, user)
-                messages.info(request, 'Username OR password is incorrect')
                 return redirect('login')
 
         context = {}
 
-    return render(request, 'PyTraker/login.html', context)
+        return render(request, 'PyTraker/login.html', context)
 
 
 def log_out(request):
     if request.method == "POST":
         logout(request)
 
-    messages.info(request, "Logged out successfully!")
-    return redirect('/PyTraker/index')
+    mess = "Logged out succesfully!"
+    return render(request, 'PyTraker/index.html', {'mess': mess})
 
 @register.filter
 def get_item(dictionary, key):
@@ -455,18 +456,14 @@ def workdiary_add(request):
         projectID = request.POST.get('projectID')
         project = Projects.objects.get(id=projectID)
         new_workdiary.projectID = project
-        projectNotesID = request.POST.get('projectNotesID')
-        projectNote = ProjectNotes.objects.get(id=projectNotesID)
-        new_workdiary.projectNotesID = projectNote
+        new_workdiary.projectNotes = request.POST.get('projectNotes')
         taskID = request.POST.get('taskID')
         task = Tasks.objects.get(id=taskID)
         new_workdiary.taskID = task
-        taskNotesID = request.POST.get('taskNotesID')
-        taskNote = TaskNotes.objects.get(id=taskNotesID)
-        new_workdiary.taskNotesID = taskNote
+        new_workdiary.taskNotes = request.POST.get('taskNotes')
         WorkDiary.objects.create(userID=new_workdiary.userID, name=new_workdiary.name, date=new_workdiary.date,
-                                 projectID=new_workdiary.projectID, projectNotesID=new_workdiary.projectNotesID,
-                                 taskID=new_workdiary.taskID, taskNotesID=new_workdiary.taskNotesID)
+                                 projectID=new_workdiary.projectID, projectNotes=new_workdiary.projectNotes,
+                                 taskID=new_workdiary.taskID, taskNotes=new_workdiary.taskNotes)
 
         return redirect('/PyTraker/workdiary')
     else:
@@ -591,11 +588,26 @@ def noteboard(request):
 # Note_Board: Create a new note
 @login_required
 def noteboard_create(request):
+    if request.method == "POST":
+        newNoteText = request.POST['newNoteText']
+        newNote = Noteboard_Note(userID=request.user, note=newNoteText)
+        newNote.save()
+        return redirect('/PyTraker/noteboard')
     return render(request, 'PyTraker/noteboard_create.html')
 
 # Note_Board: Update a note
 @login_required
-def noteboard_update(request):
-    note = "Note text should be here"
+def noteboard_update(request, noteId):
+    note = Noteboard_Note.objects.get(id=int(noteId))
+    if request.method == "POST":
+        note.note = request.POST['updatedText']
+        note.save()
+        return redirect('/PyTraker/noteboard')
     context = { "note": note }
     return render(request, 'PyTraker/noteboard_update.html', context)
+
+# Note_Board: Update a note
+@login_required
+def noteboard_delete(request, noteId):
+    Noteboard_Note.objects.get(id=int(noteId)).delete()
+    return redirect('/PyTraker/noteboard')
