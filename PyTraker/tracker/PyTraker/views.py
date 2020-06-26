@@ -168,12 +168,10 @@ def new_invoice(request, project_id):
     return render(request, "PyTraker/new_invoice.html", {'form': form})
 
 
-
-
-
 @login_required
 def edit_invoice(request, invoices_id):
     invoice = Invoices.objects.get(pk=invoices_id)
+    project_id =invoice.projectID.id
     form = InvoiceForm(instance=invoice)
     if request.method == "POST":
         populated_form = InvoiceForm(request.POST, instance=invoice)
@@ -181,10 +179,11 @@ def edit_invoice(request, invoices_id):
             populated_form.save()
             form = populated_form
             note = "Invoice has been updated."
-            return render(request, 'PyTraker/edit_invoice.html',
-                          {'note': note, 'invoice_form': form, 'invoice': invoice})
-
-    return render(request, 'PyTraker/edit_invoice.html', {'invoice_form': form, 'invoice': invoice})
+            return redirect('/PyTraker/invoice/' + str(project_id))
+            #return render(request, 'PyTraker/edit_invoice.html',
+                          #{'note': note, 'invoice_form': form, 'invoice': invoice})
+    else:
+        return render(request, 'PyTraker/edit_invoice.html', {'invoice_form': form, 'invoice': invoice})
 
 
 # comment page
