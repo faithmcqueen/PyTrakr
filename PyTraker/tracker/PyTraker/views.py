@@ -184,6 +184,23 @@ def edit_invoice(request, invoices_id):
         return render(request, 'PyTraker/edit_invoice.html', {'invoice_form': form, 'invoice': invoice})
 
 
+#Delete Invoice
+
+@login_required
+def delete_invoice(request, invoice_id):
+    invoice = get_object_or_404(Invoices, pk=invoice_id)
+    return render(request, 'PyTraker/delete_invoice.html', {'invoice': invoice})
+
+
+@login_required
+def delete_invoice_conf(request, invoice_id):
+    invoice = int(invoice_id)
+    del_invoice = Invoices.objects.get(id=invoice)
+    project_id = del_invoice.projectID.id
+    del_invoice.delete()
+    return redirect('/PyTraker/details_project/' + str(project_id))
+
+
 # comment page
 @login_required
 def comment_view(request):
