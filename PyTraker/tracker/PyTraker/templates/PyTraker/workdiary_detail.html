@@ -1,7 +1,7 @@
 {% extends "PyTraker/header.html" %}
 
 {% block content %}
-
+<div class="page-wrap">
 <div class="container">
   <div class="card">
     <h5 class="card-header">Work Diary Details for: {{ workdiary.name }}</h5>
@@ -42,7 +42,7 @@
 <!--                                    </button>-->
 
                                     {% if comment.user == user %}
-                                    <button type="button" class="btn btn-danger btn-xs" title="Delete">
+                                    <button type="button" class="delete-btn" title="Delete">
                                         <a href="/PyTraker/comments/{{ comment.id }}/delete/"><span class="glyphicon glyphicon-trash">X</span></a>
                                     </button>
                                     {% endif %}
@@ -67,7 +67,7 @@
     <label>Comment:</label>
 <!--    <textarea name="comment" id="id_comment"></textarea>-->
           <input type="text" class="form-control" style="display:inline" name="comment" id="id_comment">
-          <input class="btn btn-success" style="display:inline" type="submit" value="Share" />
+          <input class="new-btn" style="display:inline" type="submit" value="Share" />
 </form>
 
 </div>
@@ -78,12 +78,13 @@
 
 
 
-      <a href="/PyTraker/workdiary_edit/{{ workdiary.id }}" class="btn btn-warning">Edit</a>
-      <a href="/PyTraker/workdiary_delete/{{ workdiary.id }}"  class="btn btn-danger"  id ='{{workdiary.id}}'>Delete</a>
-      <a href="/PyTraker/workdiary" class="btn btn-primary" >Back</a>
+      <a href="/PyTraker/workdiary_edit/{{ workdiary.id }}" class="new-btn">Edit</a>
+      <a href="/PyTraker/workdiary_delete/{{ workdiary.id }}"  class="delete-btn"  id ='{{workdiary.id}}'>Delete</a>
+      <a href="/PyTraker/workdiary" class="reset-btn" >Back</a>
 
     </div>
   </div>
 </div>
 
 {% endblock %}
+</div>

@@ -1,4 +1,4 @@
-{% extends "PyTraker/noteboard_base.html" %}
+{% extends "PyTraker/header.html" %}
 
 {% block content %}
 
@@ -14,9 +14,9 @@
         </div>
 
         <div class="row d-flex justify-content-center">
-            <button type="submit" class="btn btn-warning btn-lg">Update Note</button>
+            <button type="submit" class="new-btn">Update Note</button>
+            <a href="/PyTraker/noteboard" class="delete-btn">Cancel</a>
         </div>
-        <p class="text-center"><a href="/PyTraker/noteboard">Cancel</a></p>
     </form>
 </div>
 

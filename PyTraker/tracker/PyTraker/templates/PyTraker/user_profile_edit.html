@@ -1,7 +1,7 @@
 {% extends "PyTraker/header.html" %}
 
 {% block content %}
-
+<div class="page-wrap">
 <div class="container">
         <div class="card">
             <h5 class="card-header">Edit Profile</h5>
@@ -10,11 +10,12 @@
                     {% csrf_token %}
                     {{ user_form.as_p }}
                     {{ user_profile_edit.as_p }}
-                    <input type="submit" value="Confirm" class="btn btn-success">
-                    <a href="/PyTraker/user_profile/{{ user.id }}" class="btn btn-primary" >Cancel</a>
+                    <input type="submit" value="Confirm" class="new-btn">
+                    <a href="/PyTraker/user_profile/{{ user.id }}" class="delete-btn" >Cancel</a>
                 </form>
             </div>
         </div>
 </div>
 
 {% endblock %}
+</div>

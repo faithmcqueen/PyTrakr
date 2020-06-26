@@ -3,12 +3,16 @@
 
 {% block content %}
 
-
+<div class="page-wrap">
 {% if user.is_authenticated %}
-<h1> {% if user.profile %} Welcome {{ user.profile.firstname }} {{ user.profile.lastname }}, here is a list of your current list of projects {% else %}
-Welcome {{ user.username }}, here is a list of your current list of projects{% endif%}</h1>
-
+<h1> {% if user.profile %} Welcome {{ user.profile.firstname }} {{ user.profile.lastname }}, here are your current projects {% else %}
+Welcome {{ user.username }}, here are your current projects{% endif%}</h1>
+<div>
+    <p>Would you like to add a new project?</p>
+    <a class="new-btn" href= "/PyTraker/new_project">New Project</a>
+</div>
 {% if page_obj %}
+    <div class="project-wrap">
     <div class="card-deck">
          {% for project in page_obj %}
         <div class="card border-info mb-3" style="max-width: 18rem;">
@@ -20,6 +24,7 @@ Welcome {{ user.username }}, here is a list of your current list of projects{% e
         </div>
         </div>
      {% endfor %}
+    </div>
     </div>
 <div class="pagination">
     <span class="step-links">
@@ -42,12 +47,10 @@ Welcome {{ user.username }}, here is a list of your current list of projects{% e
 <p> No projects yet!</p>
 {% endif %}
     <div>
-    <br>
-<p>Would you like to add a new project?</p>
-<a class="btn btn-success" href= "/PyTraker/new_project">New Project</a>
-</div>
+    </div>
 {% else %}
 <div class="alert alert-secondary" id="logged-out">{{ mess }}</div>
 {% endif %}
 
 {% endblock %}
+</div>

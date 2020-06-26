@@ -376,7 +376,6 @@ def details_project(request, pk):
     date = datetime.now()
     timer = Timers.objects.filter(projectID=pk)
     task = Tasks.objects.filter(projectID=pk)
-    tasks = Tasks.objects.filter(projectID_id=project.pk)
     try:
         invoice = Invoices.objects.get(projectID_id=pk)
     except Invoices.DoesNotExist:

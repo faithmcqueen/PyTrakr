@@ -1,6 +1,7 @@
 {% extends "PyTraker/header.html" %}
 
 {% block content %}
+<div class="page-wrap">
    <h1>New Project</h1>
 <h2>{{ note }}</h2>
     <div class="container">
@@ -11,8 +12,8 @@
     {% csrf_token %}
         {{ new_project.as_p }}
 
-    <input class="btn btn-success" type="submit" value="Add">
-    <a class="btn btn-danger" href="/PyTraker/index">Cancel</a>
+    <input class="new-btn" type="submit" value="Add">
+    <a class="delete-btn" href="/PyTraker/index">Cancel</a>
 
 </form>
 
@@ -20,4 +21,5 @@
     </div>
 
 {% endblock %}
+</div>
 
