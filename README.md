@@ -9,12 +9,12 @@
 - Python + Django
 - MySQL
 - SASS
-- Design tools: Figma / Adobe XD
+- Design tools: Figma / Adobe
 
 ## Project Timeline (tentative)
 - Week 1-3: Learning & Designing  
 - Week 4-6: İmplementation  
-- Week 7: Testing and Reporting  
+- Week 7: Testing and Deployment
 
 
 ## Project Basics  

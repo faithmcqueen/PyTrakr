@@ -1,5 +1,7 @@
 {% extends "PyTraker/header.html" %}
+
 <!--{% load mathfilters %}-->
+
 
 
 {% block content %}
@@ -105,7 +107,7 @@
 </script>
 <div class="page-wrap">
 <a href="/PyTraker/edit_invoice/{{ invoice_id }}" class="new-btn">Edit</a>
-    <a href="/PyTraker/delete_invoice/{{ invoice_id }}"  class="delete-btn"  id ='{{project.id}}'>Delete</a>
+    <a href="/PyTraker/delete_invoice/{{ invoice_id }}"  class="delete-btn"  id ='{{invoice.id}}'>Delete</a>
     <!-- If the inovice exists do this-->
     <h1>Invoice {{ project_name }}</h1>
     <!-- Invoice Information-->
