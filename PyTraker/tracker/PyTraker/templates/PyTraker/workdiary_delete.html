@@ -5,8 +5,8 @@
 <div class="container" id="delete-container">
     <h5>Are you sure you want to delete " {{ workdiary.name }} " ?</h5>
 
-    <a href="/PyTraker/workdiary_conf_delete/{{ workdiary.id }}"  class="btn btn-danger"  id ='{{ workdiary.id }}'>Delete</a>
-    <a href="/PyTraker/workdiary" class="btn btn-primary" >Cancel</a>
+    <a href="/PyTraker/workdiary_conf_delete/{{ workdiary.id }}"  class="delete-btn"  id ='{{ workdiary.id }}'>Delete</a>
+    <a href="/PyTraker/workdiary" class="new-btn" >Cancel</a>
 
 </div>
 {% endblock %}

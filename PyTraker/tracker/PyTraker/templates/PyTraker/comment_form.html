@@ -46,7 +46,7 @@
 <!--                                    </button>-->
 
                                     {% if comment.user == user %}
-                                    <button type="button" class="btn btn-danger btn-xs" title="Delete">
+                                    <button type="button" class="delete-btn" title="Delete">
                                         <a href="{{ comment.id }}/delete/"><span class="glyphicon glyphicon-trash"></span></a>
                                     </button>
                                     {% endif %}
@@ -71,7 +71,7 @@
     <label>Comment:</label>
 <!--    <textarea name="comment" id="id_comment"></textarea>-->
           <input type="text" class="form-control" name="comment" id="id_comment">
-    <input class="btn btn-success" type="submit" value="Share" />
+    <input class="new-btn" type="submit" value="Share" />
 </form>
 
 </div>

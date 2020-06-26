@@ -1,7 +1,7 @@
 {% extends "PyTraker/header.html" %}
 
 {% block content %}
-
+<div class="page-wrap">
 <h1> {{ user }}, here are your current tasks:</h1>
     <a href="/PyTraker/new_task" class="new-btn">New Task</a>
 {% if all_task_list %}
@@ -14,7 +14,8 @@
 
 </div>
 {% else %}
-    <p>You don't have any tasks yet! <a href="/PyTraker/new_task">Add a task.</a></p>
+    <p>You don't have any tasks yet! <a href="/PyTraker/new_task">New Task</a></p>
 {% endif %}
 
 {% endblock %}
+</div>

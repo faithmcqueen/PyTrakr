@@ -1,24 +1,20 @@
 {% extends "PyTraker/header.html" %}
 
 {% block content %}
-
+<div class="page-wrap">
 <h1>Edit Task</h1>
-    <a href="/PyTraker/task_detail/{{ task.id }}">Back</a>
     <div class="container">
         <h2>{{ note }}</h2>
 
         <form action="/PyTraker/edit_task/{{ task.id }}/" method="post">
         {% csrf_token %}
         {{ new_task.as_p }}
-        <input type="submit" value="Update" class="btn btn-warning">
-        <a href="/PyTraker/delete_task/{{ task.id }}/"  class="btn btn-danger"  id ='{{task.id}}'>Delete</a>
+        <input type="submit" value="Update" class="new-btn">
+    <a href="/PyTraker/task_detail/{{ task.id }}" class="delete-btn">Back</a>
 
         </form>
 
     </div>
 
-
-
-
-
 {% endblock %}
+</div>

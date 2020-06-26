@@ -86,8 +86,9 @@
     }
 
 </script>
-<a href="/PyTraker/edit_invoice/{{ invoice_id }}" class="btn btn-warning">Edit</a>
-    <a href="/PyTraker/delete_invoice/{{ invoice_id }}"  class="btn btn-danger"  id ='{{project.id}}'>Delete</a>
+<div class="page-wrap">
+<a href="/PyTraker/edit_invoice/{{ invoice_id }}" class="new-btn">Edit</a>
+    <a href="/PyTraker/delete_invoice/{{ invoice_id }}"  class="delete-btn"  id ='{{project.id}}'>Delete</a>
     <!-- If the inovice exists do this-->
     <h1>Invoice {{ project_name }}</h1>
     <!-- Invoice Information-->
@@ -141,3 +142,4 @@
 
 
 {% endblock %}
+</div>
