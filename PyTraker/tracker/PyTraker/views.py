@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.template.defaulttags import register
+#from django.template.defaulttags import register
+from django import template
+register = template.Library()
+
 
 from django.db.models import Sum
 from django.db.models import Avg
@@ -32,6 +35,8 @@ from django.template import defaultfilters
 from django.utils.dateparse import parse_date
 from django.views.generic import ListView
 from django.db.models import Q, Sum
+
+
 
 
 def home(request):
@@ -93,10 +98,6 @@ def log_out(request):
     mess = "Logged out succesfully!"
     return render(request, 'PyTraker/index.html', {'mess': mess})
 
-@register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
-
 
 # Invoice Views
 @login_required
@@ -106,11 +107,9 @@ def invoice(request, project_id):
     obj = Invoices.objects.get(projectID_id=project_id)
     #list of tasks
     tasks = Tasks.objects.filter(projectID_id=obj.projectID)
-    task_id = Tasks.pk
-    totalhours = Timers.totalhours
     #list of timers for the project
     timer = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').annotate(tasktotal=Sum('totalhours'))
-    timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').aggregate(tasktotal=Sum('totalhours'))
+    #timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').aggregate(tasktotal=Sum('totalhours'))
     context = {
         'invoice_id': obj.id,
         'project_id': obj.projectID,
@@ -126,8 +125,7 @@ def invoice(request, project_id):
         'date_due': obj.dueDate,
         'hourly_rate': obj.projectID.payRate,
         'tasks_list': tasks,
-        'timers': timersum,
-        'tasktimers': timer,
+        'timers': timer,
     }
     return render(request, "PyTraker/invoice.html", context)
 

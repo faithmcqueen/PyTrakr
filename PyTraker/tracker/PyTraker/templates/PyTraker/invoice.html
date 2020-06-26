@@ -1,6 +1,7 @@
 {% extends "PyTraker/header.html" %}
 {% load mathfilters %}
 
+
 {% block content %}
     <style>
     table, td, th {
@@ -26,12 +27,33 @@
         var subtotal = 0;
         var tax = 0;
         var total = 0;
+        var time = 0;
         var task_list =document.getElementsByClassName('rate').length;
-        console.log(task_list);
+        var row;
 
         //LOGIC
         for(var i = 0; i < task_list; i++){
-            var time  = document.getElementsByClassName('time')[i].innerHTML;
+            row = document.getElementsByClassName('amount-row')[i];
+            //console.log("Here",document)
+            //console.log(document.getElementsByClassName('time')[i].innerHTML);
+            try{
+               time  = document.getElementsByClassName('time')[i].innerHTML;
+            }
+            //If it does not exsit create the element
+            catch(typeError){
+                time = 0;
+                let timerow = document.createElement('td');
+                let timerclass = document.createAttribute('class');
+                timerclass.value = 'time';
+                timerow.setAttributeNode(timerclass);
+                row.appendChild(timerow)
+                document.getElementsByClassName('time')[i].innerHTML = time;
+                row.insertBefore(timerow, row.childNodes[4]);
+                console.log(timerow);
+
+            }
+
+            console.log(time);
             var rate = document.getElementsByClassName('rate')[i].innerHTML;
             var amount = multiply(rate, time);
             amounts.push(amount);
@@ -53,6 +75,7 @@
         //FUNCTIONS
         //Function to multiply the amount of hours times the pay rate
         function multiply(rate, time){
+
             var amount = rate*time
             return amount ;
         }
@@ -73,15 +96,6 @@
 
         }
 
-        //Function to add all the time for that task
-        function addtasks(tasks){
-            var total = 0;
-            for(var i = 0; i < tasks.length; i++){
-                total = total + tasks[i];
-            }
-
-            return total;
-        }
 
     }
 
@@ -112,6 +126,7 @@
         <div>{{ client_phone }}</div>
     </div>
 
+
     <!-- Working with loops -->
     <table>
         <tr>
@@ -120,16 +135,18 @@
             <th>HOURS</th>
             <th>AMOUNT</th>
         </tr>
-
         {% for task in tasks_list %}
-
-        <tr>
+        <tr class="amount-row">
             <td>{{ task }}</td>
             <td class="rate">{{ hourly_rate }}</td>
-            <td class="time"> 5 </td>
+            {% for time in timers %}
+                {% if time.task_id == task.id %}
+                    <td class="time">{{ time.tasktotal }}</td>
+                {% endif %}
+            {% endfor %}
             <td class="amount"></td>
-
         </tr>
+
         {% endfor %}
 
     </table>
