@@ -38,8 +38,10 @@
             //console.log(document.getElementsByClassName('time')[i].innerHTML);
             try{
                time  = document.getElementsByClassName('time')[i].innerHTML;
+               var timefixed = (Math.round(time * 100) / 100).toFixed(2);
+               document.getElementsByClassName('time')[i].innerHTML = timefixed;
             }
-            //If it does not exsit create the element
+            //If it does not exist create the element
             catch(typeError){
                 time = 0;
                 let timerow = document.createElement('td');
@@ -57,20 +59,20 @@
             var rate = document.getElementsByClassName('rate')[i].innerHTML;
             var amount = multiply(rate, time);
             amounts.push(amount);
-            document.getElementsByClassName('amount')[i].innerHTML = amount;
+            document.getElementsByClassName('amount')[i].innerHTML = (Math.round(amount * 100) / 100).toFixed(2);
 
         }
 
         console.log(amounts);
 
         subtotal= subtotalf(amounts);
-        document.getElementById('subtotal').innerHTML = 'SUBTOTAL: '+ subtotal;
+        document.getElementById('subtotal').innerHTML = 'SUBTOTAL: $'+ (Math.round(subtotal * 100) / 100).toFixed(2);
 
         tax = taxf(subtotal);
-        document.getElementById('tax').innerHTML = 'TAX (13%): '+ tax.toFixed(2);
+        document.getElementById('tax').innerHTML = 'TAX (13%): $'+ (Math.round(tax * 100) / 100).toFixed(2);
 
         total = subtotal + tax;
-        document.getElementById('balance').innerHTML = 'BALANCE: '+ total;
+        document.getElementById('balance').innerHTML = 'BALANCE: $'+ (Math.round(total * 100) / 100).toFixed(2);
 
         //FUNCTIONS
         //Function to multiply the amount of hours times the pay rate
@@ -86,6 +88,7 @@
             for(var i = 0; i < amount.length; i++){
                 result = result + amount[i];
             }
+
             return result;
         }
 
