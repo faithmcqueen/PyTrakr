@@ -9,9 +9,9 @@
                 <form action="/PyTraker/workdiary_edit/{{ workdiary.id }}" method="post">
                     {% csrf_token %}
                     {{ workdiary_edit.as_p }}
-                    <input type="submit" value="Confirm" class="btn btn-success">
-                    <a href="/PyTraker/workdiary_delete/{{ workdiary.id }}"  class="new-btn"  id ='{{workdiary.id}}'>Delete</a>
-                    <a href="/PyTraker/workdiary_detail/{{ workdiary.id }}" class="delete-btn" >Cancel</a>
+                    <input type="submit" value="Confirm" class="new-btn">
+                    <a href="/PyTraker/workdiary_delete/{{ workdiary.id }}"  class="delete-btn"  id ='{{workdiary.id}}'>Delete</a>
+                    <a href="/PyTraker/workdiary_detail/{{ workdiary.id }}" class="reset-btn" >Cancel</a>
                 </form>
             </div>
         </div>

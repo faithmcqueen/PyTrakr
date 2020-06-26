@@ -11,7 +11,7 @@
     <div class="logo-container">
         {% load static %}
         <div class="logo-img">
-            <img src="{% static "PyTraker/logo.png" %}" alt="My logo" id="logo">
+            <a href="/PyTraker/index"><img src="{% static "PyTraker/logo.png" %}" alt="My logo" id="logo"></a>
         </div>
         {% if user.is_authenticated %}
         <div class="search-wrapper">

@@ -168,12 +168,12 @@
     <div class="card">
         <h5 class="card-header">Current tasks for {{ project.name }}</h5>
         <div class="card-body">
-        {% if tasks %}
+        {% if task %}
         <div class="list">
-        {% for tasks in tasks %}
+        {% for t in task %}
 
-        <p class="list-item"><a href="/PyTraker/task_detail/{{ tasks.id }}" class="d-inline-flex p-2">{{ tasks.name }}</a>
-            <span><a href="/PyTraker/change_status/{{ tasks.id }}" class="complete-btn">&check;</a></span></p>
+        <p class="list-item"><a href="/PyTraker/task_detail/{{ t.id }}" class="d-inline-flex p-2">{{ t.name }}</a>
+            <span><a href="/PyTraker/change_status/{{ t.id }}" class="complete-btn">&check;</a></span></p>
         {% endfor %}
 
         </div>

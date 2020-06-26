@@ -1,3 +1,15 @@
+.reset-btn, .delete-btn, .new-btn, .stop-btn, .start-btn, #logout-btn, button [type=button] {
+  padding: 5px 10px;
+  border-radius: 0;
+  color: #f7f7f7;
+  margin: 1.5em 0;
+}
+.reset-btn:hover, .delete-btn:hover, .new-btn:hover, .stop-btn:hover, .start-btn:hover, #logout-btn:hover, button [type=button]:hover {
+  text-decoration: none;
+  background-color: #593d4a;
+  color: #f7f7f7;
+}
+
 body {
   background-color: #f7f7f7;
   font-family: "Open Sans", sans-serif;
@@ -16,20 +28,15 @@ a:hover {
   margin-top: 1em;
 }
 
+.project-wrap {
+  margin-top: 1em;
+}
+
 button {
   border: none;
 }
 button [type=button] {
   border: none;
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
-}
-button [type=button]:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
 }
 
 nav {
@@ -56,19 +63,10 @@ nav li a:hover {
 }
 
 #logout-btn {
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
   background-color: #593d4a;
   margin-top: 0;
   margin-left: 0.5em;
   margin-right: 0.5em;
-}
-#logout-btn:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
 }
 #logout-btn:hover {
   background-color: black;
@@ -114,10 +112,6 @@ nav li a:hover {
   border-radius: 0;
 }
 
-.search-wrapper {
-  display: inline-block;
-}
-
 .nb-card {
   display: inline-block;
   margin-bottom: 5px;
@@ -153,15 +147,6 @@ nav li a:hover {
 
 .start-btn {
   background-color: #b0dcda;
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
-}
-.start-btn:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
 }
 .start-btn:hover {
   background-color: #593d4a;
@@ -169,42 +154,15 @@ nav li a:hover {
 
 .stop-btn {
   background-color: #BA3B46;
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
-}
-.stop-btn:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
 }
 
 .new-btn {
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
   background-color: #b0dcda;
   color: #593d4a;
 }
-.new-btn:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
-}
 
 .delete-btn {
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
   background-color: #BA3B46;
-}
-.delete-btn:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
 }
 
 .complete-btn {
@@ -225,16 +183,7 @@ input[type=submit] {
 }
 
 .reset-btn {
-  padding: 5px 10px;
-  border-radius: 0;
-  color: #f7f7f7;
-  margin: 1.5em 0;
   background-color: #ED9B40;
-}
-.reset-btn:hover {
-  text-decoration: none;
-  background-color: #593d4a;
-  color: #f7f7f7;
 }
 
 .list {

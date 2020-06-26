@@ -7,7 +7,7 @@ $secondary-accent: #BA3B46
 $body-font: 'Open Sans', sans-serif
 
 //Mixin styles
-@mixin button-style
+%button-style
   padding: 5px 10px
   border-radius: 0
   color: $neutral
@@ -33,11 +33,14 @@ a
 .page-wrap
   margin-top: 1em
 
+.project-wrap
+  margin-top: 1em
+
 button
   border: none
   [type=button]
     border: none
-    @include button-style
+    @extend %button-style
 
 //Header styles
 nav
@@ -56,7 +59,7 @@ nav
   font-size: 1.25em
 
 #logout-btn
-  @include button-style
+  @extend %button-style
   background-color: $dark
   margin-top: 0
   margin-left: 0.5em
@@ -97,8 +100,6 @@ nav
     border: 1px solid lightgrey
     border-radius: 0
 
-.search-wrapper
-  display: inline-block
 
 //Notes styles
 .nb-card
@@ -131,21 +132,21 @@ nav
 //Button styles
 .start-btn
   background-color: $primary
-  @include button-style
+  @extend %button-style
   &:hover
     background-color: $dark
 
 .stop-btn
   background-color: $secondary-accent
-  @include button-style
+  @extend %button-style
 
 .new-btn
-  @include button-style
+  @extend %button-style
   background-color: $primary
   color: $dark
 
 .delete-btn
-  @include button-style
+  @extend %button-style
   background-color: $secondary-accent
 
 .complete-btn
@@ -163,7 +164,7 @@ input[type=submit]
   border: 0
 
 .reset-btn
-  @include button-style
+  @extend %button-style
   background-color: $accent
 
 //List styles
@@ -193,3 +194,4 @@ input[type=submit]
   display: flex
   flex: 1
   align-content: stretch
+
