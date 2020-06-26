@@ -35,8 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'PyTraker.apps.PytrakerConfig',
-    'mathfilters'
+    'PyTraker.apps.PytrakerConfig'
 
 
 ]
