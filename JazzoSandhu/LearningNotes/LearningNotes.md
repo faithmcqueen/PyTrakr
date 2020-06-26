@@ -59,3 +59,15 @@ again run the migration as you did previously
 >python manage.py createsuperuser
 * then set the username and password
 
+#### save the form values in the db if you are using the from.as_p
+>def create_view(request):
+>form = CommentForm(request.POST or None)
+>if form.is_valid():
+>form.save()
+>form = CommentForm()
+
+>context={
+>'form' : form
+>}
+>return render(request, "Pytraker/create.html", context)
+

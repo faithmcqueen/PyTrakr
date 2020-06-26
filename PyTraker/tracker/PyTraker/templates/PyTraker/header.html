@@ -58,10 +58,12 @@
 {% else %}
 <a href="{% url 'PyTraker:sign_up' %}" class="nav-link"  >Sign up</a>  <a href="/PyTraker/login/?next=/" class="nav-link" >Login</a>
 {% endif %}
+    {% if user.is_authenticated %}
     <form class="form-inline my-2 my-lg-0" action="/search" method="get">
       <input class="form-control mr-sm-2"name='q' type="text" placeholder="Search by Projects" aria-label="Search">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+    {% endif %}
   </div>
 </nav>
 
