@@ -2,7 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Profile, Comments, Projects, Invoices, Clients, WorkDiary, Tasks,Timers
+from .models import Profile, Comments, Projects, Invoices, Clients, WorkDiary, Tasks, Timers
 
 # for import date and time
 from _datetime import datetime
@@ -48,6 +48,7 @@ class CommentForm(forms.ModelForm):
     def clean_user(self, *args, **kwargs):
         user = self.cleaned_data.get("user")
 
+
 class TimerForm(forms.ModelForm):
     class Meta:
         model = Timers
@@ -55,7 +56,9 @@ class TimerForm(forms.ModelForm):
             'startTime',
             'endTime',
             'totaltime',
+            'totalhours',
         ]
+
 
 class CommentRawProduction(forms.Form):
     user = forms.CharField()
@@ -95,10 +98,22 @@ class InvoiceForm(forms.ModelForm):
 
 class WorkDiaryForm(forms.ModelForm):
     name = forms.CharField()
+    projectNotes = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}))
+    taskNotes = forms.CharField(widget=forms.Textarea(attrs={'rows': 5, 'cols': 100}))
+
+    def __init__(self, *args, **kwargs):
+        super(WorkDiaryForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs = {'class': 'form-control', }
+        self.fields['projectID'].widget.attrs = {'class': 'form-control', }
+        self.fields['projectNotes'].widget.attrs = {'class': 'form-control', }
+        self.fields['taskID'].widget.attrs = {'class': 'form-control', }
+        self.fields['taskNotes'].widget.attrs = {'class': 'form-control', }
 
     class Meta:
         model = WorkDiary
-        fields = ['name', 'projectID', 'projectNotesID', 'taskID', 'taskNotesID']
+        fields = ['name', 'projectID', 'projectNotes', 'taskID', 'taskNotes']
+        labels = {'name': 'Name', 'projectID': 'Project', 'projectNotes': 'Project Notes', 'taskID': 'Task',
+                  'taskNotes': 'Task Notes'}
 
 
 # Create a task

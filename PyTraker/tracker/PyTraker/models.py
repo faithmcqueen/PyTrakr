@@ -52,8 +52,11 @@ class Timers(models.Model):
     startTime = models.DateTimeField()
     endTime = models.DateTimeField()
     totaltime = models.CharField(max_length=100,default="0")
+    totalhours = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     projectID = models.ForeignKey(Projects, on_delete=models.CASCADE,default='1')
     task = models.ForeignKey(Tasks, on_delete=models.CASCADE, default='4')
+
+
 
 
 class TaskNotes(models.Model):
@@ -87,9 +90,9 @@ class WorkDiary(models.Model):
     name = models.CharField(max_length=50)
     date = models.DateTimeField()
     projectID = models.ForeignKey(Projects, on_delete=models.CASCADE)
-    projectNotesID = models.ForeignKey(ProjectNotes, on_delete=models.CASCADE)
+    projectNotes = models.CharField(max_length=2000, default='coming soon')
     taskID = models.ForeignKey(Tasks, on_delete=models.CASCADE)
-    taskNotesID = models.ForeignKey(TaskNotes, on_delete=models.CASCADE)
+    taskNotes = models.CharField(max_length=2000, default='coming soon')
 
 class Comments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

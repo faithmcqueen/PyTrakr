@@ -46,6 +46,8 @@ Welcome {{ user.username }}, here is a list of your current list of projects{% e
 <p>Would you like to add a new project?</p>
 <a class="btn btn-success" href= "/PyTraker/new_project">New Project</a>
 </div>
+{% else %}
+<div class="alert alert-secondary" id="logged-out">{{ mess }}</div>
 {% endif %}
 
 {% endblock %}
