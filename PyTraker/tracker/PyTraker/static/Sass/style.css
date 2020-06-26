@@ -1,0 +1,154 @@
+body {
+  background-color: #f7f7f7;
+  font-family: "Open Sans", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #b0dcda;
+}
+a:hover {
+  text-decoration: none;
+  color: #593d4a;
+}
+
+#logo {
+  max-width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+nav {
+  background-color: #593d4a;
+}
+nav li a {
+  color: #f7f7f7;
+}
+nav li a hover {
+  color: #b0dcda;
+  text-decoration: none;
+}
+
+#logout-btn {
+  margin-top: 0;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.nb-card {
+  display: inline-block;
+  margin-bottom: 5px;
+  width: 350px;
+  vertical-align: top;
+  border: 2px solid #593d4a;
+}
+.nb-card p {
+  height: 200px;
+  overflow-y: auto;
+}
+
+.nb-update {
+  background: #ED9B40;
+  padding: 5px;
+  color: #593d4a;
+}
+
+.nb-delete {
+  background: #BA3B46;
+  padding: 5px;
+  color: #593d4a;
+  border-radius: 20%;
+}
+
+.nb-new {
+  margin-top: 20px;
+}
+.nb-new textarea {
+  height: 200px;
+  min-height: 50px;
+}
+
+.start-btn {
+  background-color: #b0dcda;
+  padding: 5px 10px;
+  border-radius: 0;
+  color: #f7f7f7;
+  margin: 1.5em 0;
+}
+.start-btn:hover {
+  text-decoration: none;
+  background-color: #593d4a;
+  color: #f7f7f7;
+}
+.start-btn hover {
+  background-color: #593d4a;
+}
+
+.stop-btn {
+  background-color: #BA3B46;
+  padding: 5px 10px;
+  border-radius: 0;
+  color: #f7f7f7;
+  margin: 1.5em 0;
+}
+.stop-btn:hover {
+  text-decoration: none;
+  background-color: #593d4a;
+  color: #f7f7f7;
+}
+
+.new-btn {
+  padding: 5px 10px;
+  border-radius: 0;
+  color: #f7f7f7;
+  margin: 1.5em 0;
+  background-color: #b0dcda;
+  color: #593d4a;
+}
+.new-btn:hover {
+  text-decoration: none;
+  background-color: #593d4a;
+  color: #f7f7f7;
+}
+
+.delete-btn {
+  padding: 5px 10px;
+  border-radius: 0;
+  color: #f7f7f7;
+  margin: 1.5em 0;
+  background-color: #BA3B46;
+}
+.delete-btn:hover {
+  text-decoration: none;
+  background-color: #593d4a;
+  color: #f7f7f7;
+}
+
+.complete-btn {
+  background-color: #b0dcda;
+  color: #593d4a;
+  border-radius: 50%;
+  padding: 5px;
+  float: right;
+}
+.complete-btn:hover {
+  text-decoration: none;
+  background-color: #593d4a;
+  color: #f7f7f7;
+}
+
+.list {
+  margin-top: 1em;
+  width: 100%;
+}
+.list .list-item {
+  background: #fff;
+  border: 1px solid lightgrey;
+  padding: 0.5em;
+}
+.list .list-item a {
+  color: #593d4a;
+}
+
+/*# sourceMappingURL=style.css.map */
