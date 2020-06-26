@@ -97,6 +97,7 @@ def log_out(request):
 def get_item(dictionary, key):
     return dictionary.get(key)
 
+
 # Invoice Views
 @login_required
 def invoice(request, project_id):
@@ -108,8 +109,8 @@ def invoice(request, project_id):
     task_id = Tasks.pk
     totalhours = Timers.totalhours
     #list of timers for the project
-    timers = Timers.objects.filter(projectID_id=obj.projectID)
-    timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').annotate(tasktotal=Sum('totalhours'))
+    timer = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').annotate(tasktotal=Sum('totalhours'))
+    timersum = Timers.objects.filter(projectID_id=obj.projectID).values('task_id').aggregate(tasktotal=Sum('totalhours'))
     context = {
         'invoice_id': obj.id,
         'project_id': obj.projectID,
@@ -126,6 +127,7 @@ def invoice(request, project_id):
         'hourly_rate': obj.projectID.payRate,
         'tasks_list': tasks,
         'timers': timersum,
+        'tasktimers': timer,
     }
     return render(request, "PyTraker/invoice.html", context)
 
@@ -159,7 +161,8 @@ def new_invoice(request, project_id):
         if filled_form.is_valid():
             filled_form.save()
             note = "Invoice created!"
-            return render(request, 'PyTraker/new_invoice.html', {'note': note, 'form': form})
+            return redirect('/PyTraker/details_project/'+str(project_id))
+            #return render(request, 'PyTraker/new_invoice.html', {'note': note, 'form': form})
             #return redirect('PyTraker/details_project/'+str(project_id))
 
     return render(request, "PyTraker/new_invoice.html", {'form': form})

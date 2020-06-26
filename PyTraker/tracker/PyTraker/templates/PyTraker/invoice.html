@@ -26,9 +26,11 @@
         var subtotal = 0;
         var tax = 0;
         var total = 0;
+        var task_list =document.getElementsByClassName('rate').length;
+        console.log(task_list);
 
         //LOGIC
-        for(var i = 0; i < 6; i++){
+        for(var i = 0; i < task_list; i++){
             var time  = document.getElementsByClassName('time')[i].innerHTML;
             var rate = document.getElementsByClassName('rate')[i].innerHTML;
             var amount = multiply(rate, time);
@@ -118,26 +120,24 @@
             <th>HOURS</th>
             <th>AMOUNT</th>
         </tr>
-        {{ tasks_list}}
+
         {% for task in tasks_list %}
 
         <tr>
             <td>{{ task }}</td>
             <td class="rate">{{ hourly_rate }}</td>
-            <td class="time"></td>
+            <td class="time"> 5 </td>
             <td class="amount"></td>
 
         </tr>
         {% endfor %}
 
     </table>
-
-
-
     <div class="task-list">
         <div id="subtotal"> </div>
         <div id="tax"></div>
-        <div id="balance"> BALANCE:</div>
+        <div id="balance"></div>
     </div>
-{{timers }}
+
+
 {% endblock %}
