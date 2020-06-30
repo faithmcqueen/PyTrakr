@@ -171,9 +171,13 @@
         {% if task %}
         <div class="list">
         {% for t in task %}
-
+            {% if t.complete == False %}
         <p class="list-item"><a href="/PyTraker/task_detail/{{ t.id }}" class="d-inline-flex p-2">{{ t.name }}</a>
             <span><a href="/PyTraker/change_status/{{ t.id }}" class="complete-btn">&check;</a></span></p>
+                {% else %}
+                <p class="list-item"><a href="/PyTraker/task_detail/{{ t.id }}" class="d-inline-flex p-2">{{ t.name }}</a>
+                <span>Task Completed</span></p>
+            {%  endif %}
         {% endfor %}
 
         </div>
